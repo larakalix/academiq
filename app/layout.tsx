@@ -15,7 +15,7 @@ const geistMono = localFont({
 });
 
 export const metadata: Metadata = {
-    title: "School Management System",
+    title: "AcademIQ - School Management System",
     description:
         "A school management system, to manage students, classes, and assignments. Powered by Booqself.",
 };

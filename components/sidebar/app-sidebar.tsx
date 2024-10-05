@@ -15,8 +15,8 @@ import {
 } from "@/components/ui/sidebar";
 import { useSidebar } from "./hooks/use-sidebar";
 
-export function AppSidebar() {
-    const { data } = useSidebar();
+export function AppSidebar({ schoolId }: { schoolId: string }) {
+    const { data } = useSidebar({ schoolId });
 
     return (
         <Sidebar>

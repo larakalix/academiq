@@ -13,7 +13,8 @@ export default async function RootLayout({
 
     const school = await prisma.school.findFirst({
         where: {
-            userId: session?.user?.id,
+            id: "cm1vp6nir0001we36gxpcc8ad",
+            // userId: session?.user?.id,
         },
     });
 

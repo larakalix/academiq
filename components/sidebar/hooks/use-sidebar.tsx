@@ -11,7 +11,9 @@ import {
 } from "lucide-react";
 import { SidebarItems, SidebarProjectItems } from "../types/types";
 
-export const useSidebar = () => {
+export const useSidebar = ({ schoolId }: { schoolId: string }) => {
+    const defaultRoute = `/dashboard/${schoolId}`;
+
     const NAV_MAIN_ITEMS: SidebarItems[] = [
         {
             title: "Users",
@@ -21,15 +23,15 @@ export const useSidebar = () => {
             items: [
                 {
                     title: "Students",
-                    url: "/students",
+                    url: `${defaultRoute}/students`,
                 },
                 {
                     title: "Parents",
-                    url: "/parents",
+                    url: `${defaultRoute}/parents`,
                 },
                 {
                     title: "Teachers",
-                    url: "/teachers",
+                    url: `${defaultRoute}/teachers`,
                 },
             ],
         },
@@ -40,27 +42,27 @@ export const useSidebar = () => {
             items: [
                 {
                     title: "Classes",
-                    url: "/classes",
+                    url: `${defaultRoute}/classes`,
                 },
                 {
                     title: "Lessons",
-                    url: "/lessons",
+                    url: `${defaultRoute}/teachers`,
                 },
                 {
                     title: "Exams",
-                    url: "/exams",
+                    url: `${defaultRoute}/exams`,
                 },
                 {
                     title: "Assignments",
-                    url: "/assignments",
+                    url: `${defaultRoute}/assignments`,
                 },
                 {
                     title: "Results",
-                    url: "/results",
+                    url: `${defaultRoute}/results`,
                 },
                 {
                     title: "Attendance",
-                    url: "/attendance",
+                    url: `${defaultRoute}/attendance`,
                 },
             ],
         },
@@ -71,11 +73,11 @@ export const useSidebar = () => {
             items: [
                 {
                     title: "Events",
-                    url: "/events",
+                    url: `${defaultRoute}/events`,
                 },
                 {
                     title: "Announcements",
-                    url: "/announcements",
+                    url: `${defaultRoute}/announcements`,
                 },
             ],
         },
@@ -107,15 +109,15 @@ export const useSidebar = () => {
     const NAV_QUICK_ACTIONS_ITEMS: SidebarProjectItems[] = [
         {
             name: "Add Student",
-            url: "/students/new",
+            url: `${defaultRoute}/students/new`,
         },
         {
             name: "Add Teacher",
-            url: "/teachers/new",
+            url: `${defaultRoute}/teachers/new`,
         },
         {
             name: "Transfer Student",
-            url: "/students/transfer",
+            url: `${defaultRoute}/students/new`,
         },
     ];
 

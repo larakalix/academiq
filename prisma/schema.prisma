@@ -1,0 +1,228 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+    provider        = "prisma-client-js"
+    previewFeatures = ["fullTextSearch"]
+}
+
+datasource db {
+    provider     = "postgresql"
+    url          = env("DATABASE_URL")
+    relationMode = "prisma"
+}
+
+enum Day {
+    MONDAY
+    TUESDAY
+    WEDNESDAY
+    THURSDAY
+    FRIDAY
+}
+
+enum Genre {
+    MALE
+    FEMALE
+}
+
+model School {
+    id       String   @id @default(cuid())
+    slug     String   @unique
+    name     String
+    address  String
+    phone    String
+    email    String
+    logo     String
+    website  String
+    location String?
+    socials  String[]
+    userId   String
+
+    parentSchoolId String?
+
+    students      Student[]
+    parents       Parent[]
+    teachers      Teacher[]
+    grades        Grade[]
+    classes       Class[]
+    lessons       Lesson[]
+    announcements Announcement[]
+    attendances   Attendance[]
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+}
+
+enum TeacherRole {
+    PRINCIPAL
+    TEACHER
+    TEACHER_ASSISTANT
+}
+
+model Teacher {
+    id       String      @id @default(cuid())
+    name     String
+    email    String      @unique
+    password String
+    role     TeacherRole @default(TEACHER)
+
+    schoolId String
+    school   School @relation(fields: [schoolId], references: [id])
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+    classes   Class[]
+
+    @@index([schoolId])
+}
+
+model Student {
+    id         String       @id @default(cuid())
+    name       String
+    pin        String       @unique
+    email      String       @unique
+    phone      String
+    photo      String?
+    password   String
+    genre      Genre
+    attendance Attendance[]
+
+    schoolId String
+    school   School @relation(fields: [schoolId], references: [id])
+
+    parentId String?
+    parent   Parent? @relation(fields: [parentId], references: [id])
+
+    gradeId String?
+    grade   Grade?  @relation(fields: [gradeId], references: [id])
+
+    classId String?
+    class   Class?  @relation(fields: [classId], references: [id])
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    @@index([parentId])
+    @@index([gradeId])
+    @@index([classId])
+    @@index([schoolId])
+}
+
+model Parent {
+    id       String    @id @default(cuid())
+    name     String
+    email    String    @unique
+    phone    String
+    address  String
+    password String
+    students Student[]
+
+    schoolId String
+    school   School @relation(fields: [schoolId], references: [id])
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    @@index([schoolId])
+}
+
+model Attendance {
+    id     String   @id @default(cuid())
+    date   DateTime
+    status String
+
+    schoolId String
+    school   School @relation(fields: [schoolId], references: [id])
+
+    student   Student @relation(fields: [studentId], references: [id])
+    studentId String
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    @@index([studentId])
+    @@index([schoolId])
+}
+
+model Announcement {
+    id      String   @id @default(cuid())
+    title   String
+    content String
+    date    DateTime
+
+    schoolId String
+    school   School @relation(fields: [schoolId], references: [id])
+
+    lesson   Lesson? @relation(fields: [lessonId], references: [id])
+    lessonId String?
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    @@index([lessonId])
+    @@index([schoolId])
+}
+
+model Grade {
+    id    String @id @default(cuid())
+    level String @unique
+
+    schoolId String
+    school   School @relation(fields: [schoolId], references: [id])
+
+    students Student[]
+    classess Class[]
+
+    @@index([schoolId])
+}
+
+model Class {
+    id       String @id @default(cuid())
+    name     String @unique
+    capacity Int
+
+    students Student[]
+
+    schoolId String
+    school   School @relation(fields: [schoolId], references: [id])
+
+    teacherId String?
+    teacher   Teacher? @relation(fields: [teacherId], references: [id])
+
+    gradeId String
+    grade   Grade  @relation(fields: [gradeId], references: [id])
+
+    @@index([teacherId])
+    @@index([gradeId])
+    @@index([schoolId])
+}
+
+model Lesson {
+    id        String   @id @default(cuid())
+    name      String
+    day       Day
+    startTime DateTime
+    endTime   DateTime
+
+    announcements Announcement[]
+
+    schoolId String
+    school   School @relation(fields: [schoolId], references: [id])
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    @@index([schoolId])
+}
+
+model ResetToken {
+    id          String  @id @default(uuid())
+    token       String  @unique
+    userId      String
+    email       String
+    isClaimed   Boolean @default(false)
+    oldPassword String?
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+}

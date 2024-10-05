@@ -1,0 +1,189 @@
+import {
+    Atom,
+    Eclipse,
+    LifeBuoy,
+    Rabbit,
+    Send,
+    Settings2,
+    Calendar,
+    GraduationCap,
+    School,
+} from "lucide-react";
+import { SidebarItems, SidebarProjectItems } from "../types/types";
+
+export const useSidebar = () => {
+    const NAV_MAIN_ITEMS: SidebarItems[] = [
+        {
+            title: "Users",
+            url: "#",
+            icon: GraduationCap,
+            isActive: true,
+            items: [
+                {
+                    title: "Students",
+                    url: "/students",
+                },
+                {
+                    title: "Parents",
+                    url: "/parents",
+                },
+                {
+                    title: "Teachers",
+                    url: "/teachers",
+                },
+            ],
+        },
+        {
+            title: "Academics",
+            url: "#",
+            icon: School,
+            items: [
+                {
+                    title: "Classes",
+                    url: "/classes",
+                },
+                {
+                    title: "Lessons",
+                    url: "/lessons",
+                },
+                {
+                    title: "Exams",
+                    url: "/exams",
+                },
+                {
+                    title: "Assignments",
+                    url: "/assignments",
+                },
+                {
+                    title: "Results",
+                    url: "/results",
+                },
+                {
+                    title: "Attendance",
+                    url: "/attendance",
+                },
+            ],
+        },
+        {
+            title: "Communication",
+            url: "#",
+            icon: Calendar,
+            items: [
+                {
+                    title: "Events",
+                    url: "/events",
+                },
+                {
+                    title: "Announcements",
+                    url: "/announcements",
+                },
+            ],
+        },
+        {
+            title: "Settings",
+            url: "#",
+            icon: Settings2,
+            items: [
+                {
+                    title: "General",
+                    url: "#",
+                },
+                {
+                    title: "Team",
+                    url: "#",
+                },
+                {
+                    title: "Billing",
+                    url: "#",
+                },
+                {
+                    title: "Limits",
+                    url: "#",
+                },
+            ],
+        },
+    ];
+
+    const NAV_QUICK_ACTIONS_ITEMS: SidebarProjectItems[] = [
+        {
+            name: "Add Student",
+            url: "/students/new",
+        },
+        {
+            name: "Add Teacher",
+            url: "/teachers/new",
+        },
+        {
+            name: "Transfer Student",
+            url: "/students/transfer",
+        },
+    ];
+
+    const data = {
+        teams: [
+            {
+                name: "Acme Inc",
+                logo: Atom,
+                plan: "Enterprise",
+            },
+            {
+                name: "Acme Corp.",
+                logo: Eclipse,
+                plan: "Startup",
+            },
+            {
+                name: "Evil Corp.",
+                logo: Rabbit,
+                plan: "Free",
+            },
+        ],
+        user: {
+            name: "Ivan Lara",
+            email: "ivanlara@booqself.com",
+            avatar: "https://avatars.githubusercontent.com/u/69819367?v=4",
+        },
+        navMain: NAV_MAIN_ITEMS,
+        navSecondary: [
+            {
+                title: "Support",
+                url: "#",
+                icon: LifeBuoy,
+            },
+            {
+                title: "Feedback",
+                url: "#",
+                icon: Send,
+            },
+        ],
+        projects: NAV_QUICK_ACTIONS_ITEMS,
+        searchResults: [
+            {
+                title: "Routing Fundamentals",
+                teaser: "The skeleton of every application is routing. This page will introduce you to the fundamental concepts of routing for the web and how to handle routing in Next.js.",
+                url: "#",
+            },
+            {
+                title: "Layouts and Templates",
+                teaser: "The special files layout.js and template.js allow you to create UI that is shared between routes. This page will guide you through how and when to use these special files.",
+                url: "#",
+            },
+            {
+                title: "Data Fetching, Caching, and Revalidating",
+                teaser: "Data fetching is a core part of any application. This page goes through how you can fetch, cache, and revalidate data in React and Next.js.",
+                url: "#",
+            },
+            {
+                title: "Server and Client Composition Patterns",
+                teaser: "When building React applications, you will need to consider what parts of your application should be rendered on the server or the client. ",
+                url: "#",
+            },
+            {
+                title: "Server Actions and Mutations",
+                teaser: "Server Actions are asynchronous functions that are executed on the server. They can be used in Server and Client Components to handle form submissions and data mutations in Next.js applications.",
+                url: "#",
+            },
+        ],
+    };
+
+    return { data };
+};

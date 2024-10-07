@@ -3,7 +3,6 @@
 import React from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { STATIC_ROUTES } from "@/lib/routeConfig";
 import { cn } from "@/lib/utils";
 import { useLinks } from "./use-links";
 

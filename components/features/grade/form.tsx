@@ -17,13 +17,13 @@ import {
 import { Input } from "@/components/ui/input";
 import { SubmitButton } from "@/components/form/submit-button";
 import { Card } from "@/components/ui/card";
-import type { AnnouncementColumn } from "./columns";
+import type { Grade } from "@prisma/client";
 
 type Props = {
-    initialData: AnnouncementColumn | null;
+    initialData: Grade | null;
 };
 
-export const AnnouncementForm = ({ initialData }: Props) => {
+export const GradeForm = ({ initialData }: Props) => {
     const {
         // action,
         // title,
@@ -41,9 +41,7 @@ export const AnnouncementForm = ({ initialData }: Props) => {
     const form = useForm<FormValues>({
         resolver: zodResolver(formSchema),
         defaultValues: initialData || {
-            title: "",
-            content: "",
-            date: "",
+            level: "",
         },
     });
 

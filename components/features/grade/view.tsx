@@ -2,9 +2,9 @@
 
 import React from "react";
 import { DataTable } from "@/components/data-table/data-table";
-import { columns, type AnnouncementColumn } from "./columns";
+import { columns, type GradeColumn } from "./columns";
 
-export function AnnouncementView({ data }: { data: AnnouncementColumn[] }) {
+export function AnnouncementView({ data }: { data: GradeColumn[] }) {
     return (
         <>
             <DataTable data={data} columns={columns} />

@@ -1,9 +1,33 @@
 import React from "react";
+import prisma from "@/lib/prisma";
+import { MODULES } from "@/lib/constants";
+import { ClassViewView } from "@/components/features/class/view";
+import { EmptyState } from "@/components/empty-state";
+import { ListHeader } from "@/components/list-page-header/header";
 
-export default async function Page() {
+export default async function Page({
+    params,
+}: {
+    params: {
+        schoolId: string;
+    };
+}) {
+    const data = params.schoolId
+        ? await prisma.class.findMany({
+              where: { schoolId: params.schoolId },
+              orderBy: { createdAt: "desc" },
+          })
+        : [];
+
     return (
         <>
-            <h1 className="font-bold text-2xl text-zinc-900">Classes</h1>
+            <ListHeader module={MODULES.CLASSES} />
+
+            {data.length === 0 ? (
+                <EmptyState module={MODULES.CLASSES} />
+            ) : (
+                <ClassViewView data={data} />
+            )}
         </>
     );
 }

@@ -38,7 +38,7 @@ export async function POST(
         });
 
         const hashedPassword = await hash(password, 10);
-        const parent: Parent = await prisma.parent.create({
+        const data: Parent = await prisma.parent.create({
             data: {
                 name,
                 email,
@@ -65,7 +65,7 @@ export async function POST(
 
         return NextResponse.json({
             message: "Parent created successfully",
-            data: parent,
+            data,
         });
     } catch (error) {
         console.log("[PARENT_POST]", error);

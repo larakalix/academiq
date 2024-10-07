@@ -38,7 +38,7 @@ export async function POST(
         });
 
         const hashedPassword = await hash(password, 10);
-        const student: Student = await prisma.student.create({
+        const data: Student = await prisma.student.create({
             data: {
                 name,
                 email,
@@ -66,7 +66,7 @@ export async function POST(
 
         return NextResponse.json({
             message: "Teacher created successfully",
-            data: student,
+            data,
         });
     } catch (error) {
         console.log("[STUDENT_POST]", error);

@@ -155,7 +155,7 @@ export const TeacherForm = ({ initialData }: Props) => {
                         </div>
 
                         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                            <h2 className="text-2xl font-medium text-zinc-800 col-span-1 md:col-span-3 border-b pb-4 mt-4">
+                            <h2 className="text-xl font-medium text-zinc-800 col-span-1 md:col-span-3 border-b pb-4 mt-4">
                                 Auth Configuration
                             </h2>
 

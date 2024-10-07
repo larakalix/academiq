@@ -17,14 +17,13 @@ import {
 import { Input } from "@/components/ui/input";
 import { SubmitButton } from "@/components/form/submit-button";
 import { Card } from "@/components/ui/card";
-import type { Parent } from "@prisma/client";
-import { PasswordInput } from "@/components/form/password-input";
+import type { Class } from "@prisma/client";
 
 type Props = {
-    initialData: Parent | null;
+    initialData: Class | null;
 };
 
-export const ParentForm = ({ initialData }: Props) => {
+export const ClassForm = ({ initialData }: Props) => {
     const {
         // action,
         // title,
@@ -35,7 +34,7 @@ export const ParentForm = ({ initialData }: Props) => {
         onSubmit,
         onDelete,
     } = useModule({
-        module: "parent",
+        module: "student",
         isEdit: !!initialData,
     });
 
@@ -43,17 +42,11 @@ export const ParentForm = ({ initialData }: Props) => {
         resolver: zodResolver(formSchema),
         defaultValues: initialData || {
             name: "",
-            email: "",
-            address: "",
+            capacity: 1,
         },
     });
 
-    const fields = [
-        { name: "name", label: "Name", placeholder: "John Doe" },
-        { name: "email", label: "Email", placeholder: "jdoe@email.com" },
-        { name: "phone", label: "Phone", placeholder: "123-456-7890" },
-        { name: "address", label: "Address", placeholder: "123 Main St" },
-    ];
+    const fields = [{ name: "name", label: "Name", placeholder: "John Doe" }];
 
     return (
         <>
@@ -66,7 +59,10 @@ export const ParentForm = ({ initialData }: Props) => {
 
             <Card className="p-4 md:p-6">
                 <Form {...form}>
-                    <form className="space-y-8 w-full">
+                    <form
+                        onSubmit={form.handleSubmit(onSubmit)}
+                        className="space-y-8 w-full"
+                    >
                         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                             {fields.map(({ name, label, placeholder }) => (
                                 <FormField
@@ -93,14 +89,28 @@ export const ParentForm = ({ initialData }: Props) => {
                                     )}
                                 />
                             ))}
-                        </div>
 
-                        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                            <h2 className="text-xl font-medium text-zinc-800 col-span-1 md:col-span-3 border-b pb-4 mt-4">
-                                Auth Configuration
-                            </h2>
+                            <FormField
+                                control={form.control}
+                                name="capacity"
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormLabel className="capitalize">
+                                            Capacity
+                                        </FormLabel>
+                                        <FormControl>
+                                            <Input
+                                                {...field}
+                                                type="number"
+                                                disabled={loading === "loading"}
+                                                placeholder="ex: 30"
+                                            />
+                                        </FormControl>
 
-                            <PasswordInput loading={loading} />
+                                        <FormMessage className="font-medium mt-2 text-sm text-red-600 dark:text-red-500" />
+                                    </FormItem>
+                                )}
+                            />
                         </div>
 
                         <SubmitButton

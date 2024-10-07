@@ -3,16 +3,14 @@ import { format } from "date-fns";
 import { CellAction } from "@/components/cell-action";
 import { GENERIC_DATE_FORMAT, MODULES } from "@/lib/constants";
 
-export type StudentColumn = {
+export type GradeColumn = {
     id: string;
-    name: string;
-    email: string;
+    level: string;
     createdAt: Date;
 };
 
-export const columns: ColumnDef<StudentColumn>[] = [
-    { accessorKey: "name", header: "Name" },
-    { accessorKey: "email", header: "Email" },
+export const columns: ColumnDef<GradeColumn>[] = [
+    { accessorKey: "level", header: "Level" },
     {
         accessorKey: "createdAt",
         header: "Created at",
@@ -22,7 +20,7 @@ export const columns: ColumnDef<StudentColumn>[] = [
     {
         id: "actions",
         cell: ({ row }) => (
-            <CellAction data={row.original} module={MODULES.STUDENTS} />
+            <CellAction data={row.original} module={MODULES.ANNOUNCEMENTS} />
         ),
     },
 ];

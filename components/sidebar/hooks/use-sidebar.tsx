@@ -88,19 +88,23 @@ export const useSidebar = ({ schoolId }: { schoolId: string }) => {
             items: [
                 {
                     title: "General",
-                    url: "#",
+                    url: `${defaultRoute}/settings`,
                 },
                 {
                     title: "Team",
-                    url: "#",
+                    url: `${defaultRoute}/team`,
                 },
                 {
                     title: "Billing",
-                    url: "#",
+                    url: `${defaultRoute}/billing`,
                 },
                 {
-                    title: "Limits",
-                    url: "#",
+                    title: "Security",
+                    url: `${defaultRoute}/security`,
+                },
+                {
+                    title: "Integrations",
+                    url: `${defaultRoute}/integrations`,
                 },
             ],
         },

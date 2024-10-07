@@ -1,3 +1,5 @@
+export const GENERIC_DATE_FORMAT = "MMMM dd, yyyy";
+
 export const MODULES = {
     STUDENTS: "students",
     TEACHERS: "teachers",

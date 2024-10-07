@@ -1,7 +1,7 @@
 import React from "react";
 import prisma from "@/lib/prisma";
 import { MODULES } from "@/lib/constants";
-import { ClassViewView } from "@/components/features/class/view";
+import { ClassView } from "@/components/features/class/view";
 import { EmptyState } from "@/components/empty-state";
 import { ListHeader } from "@/components/list-page-header/header";
 
@@ -26,7 +26,7 @@ export default async function Page({
             {data.length === 0 ? (
                 <EmptyState module={MODULES.CLASSES} />
             ) : (
-                <ClassViewView data={data} />
+                <ClassView data={data} />
             )}
         </>
     );

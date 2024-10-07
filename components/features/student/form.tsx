@@ -15,13 +15,23 @@ import {
     FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
+import { SubmitButton } from "@/components/form/submit-button";
 import { Card } from "@/components/ui/card";
+import {
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
+} from "@/components/ui/select";
+import { PasswordInput } from "@/components/form/password-input";
 import type { Student } from "@prisma/client";
 
 type Props = {
     initialData: Student | null;
 };
+
+const GENRES = ["MALE", "FEMALE"] as const;
 
 export const StudentForm = ({ initialData }: Props) => {
     const {
@@ -46,6 +56,13 @@ export const StudentForm = ({ initialData }: Props) => {
         },
     });
 
+    const fields = [
+        { name: "name", label: "Name", placeholder: "John Doe" },
+        { name: "email", label: "Email", placeholder: "jdoe@email.com" },
+        { name: "phone", label: "Phone", placeholder: "123-456-7890" },
+        { name: "pin", label: "PIN", placeholder: "1234" },
+    ];
+
     return (
         <>
             <AlertModal
@@ -62,39 +79,88 @@ export const StudentForm = ({ initialData }: Props) => {
                         className="space-y-8 w-full"
                     >
                         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                            {["name", "email"].map((key) => (
+                            {fields.map(({ name, label, placeholder }) => (
                                 <FormField
-                                    key={`form-field-${key}`}
+                                    key={`form-field-${name}`}
                                     control={form.control}
-                                    name="name"
+                                    name={name as keyof FormValues}
                                     render={({ field }) => (
                                         <FormItem>
                                             <FormLabel className="capitalize">
-                                                {key}
+                                                {label}
                                             </FormLabel>
                                             <FormControl>
                                                 <Input
+                                                    {...field}
                                                     disabled={
                                                         loading === "loading"
                                                     }
-                                                    placeholder={
-                                                        key
-                                                            .charAt(0)
-                                                            .toUpperCase() +
-                                                        key.slice(1)
-                                                    }
-                                                    {...field}
+                                                    placeholder={placeholder}
                                                 />
                                             </FormControl>
 
-                                            <FormMessage />
+                                            <FormMessage className="font-medium mt-2 text-sm text-red-600 dark:text-red-500" />
                                         </FormItem>
                                     )}
                                 />
                             ))}
+
+                            <FormField
+                                control={form.control}
+                                name="genre"
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormLabel className="capitalize">
+                                            Genre
+                                        </FormLabel>
+                                        <Select
+                                            disabled={loading === "loading"}
+                                            onValueChange={field.onChange}
+                                            value={field.value}
+                                            defaultValue={field.value}
+                                        >
+                                            <FormControl>
+                                                <SelectTrigger>
+                                                    <SelectValue
+                                                        defaultValue={
+                                                            field.value
+                                                        }
+                                                        className="capitalize"
+                                                        placeholder="Select a genre"
+                                                    />
+                                                </SelectTrigger>
+                                            </FormControl>
+                                            <SelectContent>
+                                                {GENRES.map((genre) => (
+                                                    <SelectItem
+                                                        key={genre}
+                                                        value={genre}
+                                                        className="capitalize"
+                                                    >
+                                                        {genre}
+                                                    </SelectItem>
+                                                ))}
+                                            </SelectContent>
+                                        </Select>
+
+                                        <FormMessage className="font-medium mt-2 text-sm text-red-600 dark:text-red-500" />
+                                    </FormItem>
+                                )}
+                            />
                         </div>
 
-                        <Button>
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <h2 className="text-2xl font-medium text-zinc-800 col-span-1 md:col-span-3 border-b pb-4 mt-4">
+                                Auth Configuration
+                            </h2>
+
+                            <PasswordInput loading={loading} />
+                        </div>
+
+                        <SubmitButton
+                            state={loading}
+                            onClick={form.handleSubmit(onSubmit)}
+                        >
                             {
                                 {
                                     idle: "Save Changes",
@@ -103,7 +169,7 @@ export const StudentForm = ({ initialData }: Props) => {
                                     success: "Saved successfully!",
                                 }[loading]
                             }
-                        </Button>
+                        </SubmitButton>
                     </form>
                 </Form>
             </Card>

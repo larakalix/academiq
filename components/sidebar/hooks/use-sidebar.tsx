@@ -124,17 +124,17 @@ export const useSidebar = ({ schoolId }: { schoolId: string }) => {
     const data = {
         teams: [
             {
-                name: "Acme Inc",
+                name: "Broward Plantation",
                 logo: Atom,
                 plan: "Enterprise",
             },
             {
-                name: "Acme Corp.",
+                name: "Broward Fort Lauderdale",
                 logo: Eclipse,
                 plan: "Startup",
             },
             {
-                name: "Evil Corp.",
+                name: "Broward Oakland Park",
                 logo: Rabbit,
                 plan: "Free",
             },

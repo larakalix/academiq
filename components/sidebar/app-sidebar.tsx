@@ -15,7 +15,12 @@ import {
 } from "@/components/ui/sidebar";
 import { useSidebar } from "./hooks/use-sidebar";
 
-export function AppSidebar({ schoolId }: { schoolId: string }) {
+type Props = {
+    user: SessionUser;
+    schoolId: string;
+};
+
+export function AppSidebar({ user, schoolId }: Props) {
     const { data } = useSidebar({ schoolId });
 
     return (
@@ -41,7 +46,7 @@ export function AppSidebar({ schoolId }: { schoolId: string }) {
                 </SidebarItem>
             </SidebarContent>
             <SidebarFooter>
-                <NavUser user={data.user} />
+                <NavUser user={user} />
             </SidebarFooter>
         </Sidebar>
     );

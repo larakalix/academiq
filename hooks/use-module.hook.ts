@@ -6,6 +6,7 @@ import axios from "axios";
 import { toast } from "react-hot-toast";
 import { plural } from "pluralize";
 import { useModuleStore } from "@/store/module.store";
+import { STATIC_API_AREA, STATIC_ROUTES } from "@/lib/routeConfig";
 
 type Props = {
     module: string;
@@ -46,18 +47,18 @@ export const useModule = ({
 
             if (isEdit) {
                 await axios.patch(
-                    `/api/${params.storeId}/${pluralModuleName}/${params.id}`,
+                    `${STATIC_API_AREA.api}/${params.schoolId}/${module}/${params.id}`,
                     data
                 );
             } else {
                 const response = await axios.post(
-                    `/api/${params.storeId}/${pluralModuleName}`,
+                    `${STATIC_API_AREA.api}/${params.schoolId}/${module}`,
                     data
                 );
 
                 if (refreshToId) {
                     router.push(
-                        `/store/${params.storeId}/${pluralModuleName}/${response.data?.id}`
+                        `${STATIC_ROUTES.dashboard}/${params.schoolId}/${pluralModuleName}/${response.data?.id}`
                     );
                     return;
                 }
@@ -66,7 +67,9 @@ export const useModule = ({
             startTransition(() => {
                 if (!avoidRefresh) router.refresh();
                 if (!avoidRedirect)
-                    router.push(`/store/${params.storeId}/${pluralModuleName}`);
+                    router.push(
+                        `${STATIC_ROUTES.dashboard}/${params.schoolId}/${pluralModuleName}`
+                    );
 
                 toast.success(toastMessage);
             });
@@ -87,10 +90,12 @@ export const useModule = ({
             state.setLoading("loading");
 
             await axios.delete(
-                `/api/${params.storeId}/${pluralModuleName}/${params.id}`
+                `${STATIC_API_AREA.api}/${params.schoolId}/${module}/${params.id}`
             );
             router.refresh();
-            router.push(`/store/${params.storeId}/${pluralModuleName}`);
+            router.push(
+                `${STATIC_ROUTES.dashboard}/${params.schoolId}/${pluralModuleName}`
+            );
             toast.success(`${moduleName} deleted.`);
             // eslint-disable-next-line @typescript-eslint/no-unused-vars
         } catch (error) {

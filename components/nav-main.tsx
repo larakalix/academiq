@@ -21,6 +21,7 @@ import {
 } from "@/components/ui/popover";
 import { Separator } from "@/components/ui/separator";
 import type { SidebarItems } from "./sidebar/types/types";
+import { STATIC_ROUTES } from "@/lib/routeConfig";
 
 export function NavMain({
     className,
@@ -41,6 +42,16 @@ export function NavMain({
                     <SidebarSearch results={searchResults} />
                 </li>
             )}
+            <li>
+                <Link
+                    href={STATIC_ROUTES.dashboard}
+                    className={cn(
+                        "min-w-8 flex h-8 items-center gap-2 overflow-hidden rounded-md px-2 text-sm font-medium text-muted-foreground ring-ring transition-all hover:bg-accent hover:text-accent-foreground focus-visible:ring-2"
+                    )}
+                >
+                    <div className="line-clamp-1">Dashboard</div>
+                </Link>
+            </li>
             {items.map((item) => (
                 <Collapsible
                     key={item.title}

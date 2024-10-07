@@ -2,11 +2,15 @@
 
 import React from "react";
 import Link from "next/link";
+import { useParams } from "next/navigation";
 import { Plus } from "lucide-react";
 import { singular } from "pluralize";
 import { Button } from "./ui/button";
+import { STATIC_ROUTES } from "@/lib/routeConfig";
 
 export const EmptyState = ({ module }: { module: string }) => {
+    const params = useParams();
+    const schoolId = String(params?.schoolId);
     const moduleName = singular(module);
 
     return (
@@ -20,7 +24,9 @@ export const EmptyState = ({ module }: { module: string }) => {
                     You haven&apos;t added any {moduleName} yet.
                 </p>
 
-                <Link href={`/${module}/new`}>
+                <Link
+                    href={`${STATIC_ROUTES.dashboard}/${schoolId}/${module}/new`}
+                >
                     <Button className="mt-4">
                         <Plus size={16} className="mr-1" />
                         Add {moduleName}

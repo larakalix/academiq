@@ -6,6 +6,10 @@ export const useLinks = ({ schoolId }: { schoolId: string }) => {
             name: "General",
             url: `${STATIC_ROUTES.dashboard}/${schoolId}/settings`,
         },
+        {
+            name: "Profile",
+            url: `${STATIC_ROUTES.dashboard}/${schoolId}/profile`,
+        },
         { name: "Team", url: `${STATIC_ROUTES.dashboard}/${schoolId}/team` },
         {
             name: "Billing",
@@ -18,6 +22,10 @@ export const useLinks = ({ schoolId }: { schoolId: string }) => {
         {
             name: "Integrations",
             url: `${STATIC_ROUTES.dashboard}/${schoolId}/integrations`,
+        },
+        {
+            name: "Notifications",
+            url: `${STATIC_ROUTES.dashboard}/${schoolId}/notifications`,
         },
     ];
 

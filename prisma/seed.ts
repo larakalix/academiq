@@ -1,5 +1,6 @@
 import { hash } from "bcrypt";
 import { PrismaClient } from "@prisma/client";
+import { SUBJECTS } from "./../lib/constants";
 
 const prisma = new PrismaClient();
 
@@ -28,6 +29,16 @@ async function main() {
                 password: hashedPassword,
                 schoolId: school.id,
             },
+        });
+    });
+
+    await prisma.$transaction(async (tx) => {
+        const data = SUBJECTS.map((subject) => ({
+            name: subject.name,
+        }));
+
+        await tx.subject.createMany({
+            data,
         });
     });
 }

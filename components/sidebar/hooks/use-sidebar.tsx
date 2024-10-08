@@ -8,8 +8,15 @@ import {
     Calendar,
     GraduationCap,
     School,
+    BadgeCheck,
+    CreditCard,
+    Bell,
 } from "lucide-react";
-import { SidebarItems, SidebarProjectItems } from "../types/types";
+import {
+    SidebarItems,
+    SidebarItemsWithIcon,
+    SidebarProjectItems,
+} from "../types/types";
 
 export const useSidebar = ({ schoolId }: { schoolId: string }) => {
     const defaultRoute = `/dashboard/${schoolId}`;
@@ -125,6 +132,24 @@ export const useSidebar = ({ schoolId }: { schoolId: string }) => {
         },
     ];
 
+    const NAV_USER_LINKS: SidebarItemsWithIcon[] = [
+        {
+            name: "Account",
+            url: `${defaultRoute}/profile`,
+            icon: BadgeCheck,
+        },
+        {
+            name: "Billing",
+            url: `${defaultRoute}/billing`,
+            icon: CreditCard,
+        },
+        {
+            name: "Notifications",
+            url: `${defaultRoute}/notifications`,
+            icon: Bell,
+        },
+    ];
+
     const data = {
         teams: [
             {
@@ -147,6 +172,7 @@ export const useSidebar = ({ schoolId }: { schoolId: string }) => {
             name: "Ivan Lara",
             email: "ivanlara@booqself.com",
             avatar: "https://avatars.githubusercontent.com/u/69819367?v=4",
+            links: NAV_USER_LINKS,
         },
         navMain: NAV_MAIN_ITEMS,
         navSecondary: [

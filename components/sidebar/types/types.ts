@@ -5,6 +5,10 @@ export type SidebarProjectItems = {
     url: string;
 };
 
+export type SidebarItemsWithIcon = SidebarProjectItems & {
+    icon: LucideIcon;
+};
+
 export type SidebarItems = {
     title: string;
     url: string;

@@ -46,7 +46,7 @@ export function AppSidebar({ user, schoolId }: Props) {
                 </SidebarItem>
             </SidebarContent>
             <SidebarFooter>
-                <NavUser user={user} />
+                <NavUser user={user} links={data.user.links} />
             </SidebarFooter>
         </Sidebar>
     );

@@ -1,12 +1,5 @@
 import { signOut } from "next-auth/react";
-import {
-    BadgeCheck,
-    Bell,
-    ChevronsUpDown,
-    CreditCard,
-    LogOut,
-} from "lucide-react";
-
+import { ChevronsUpDown, LogOut } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
     DropdownMenu,
@@ -18,8 +11,15 @@ import {
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { getInitials } from "@/lib/utils";
+import { SidebarItemsWithIcon } from "./sidebar/types/types";
+import Link from "next/link";
 
-export function NavUser({ user }: { user: SessionUser }) {
+type Props = {
+    user: SessionUser;
+    links: SidebarItemsWithIcon[];
+};
+
+export function NavUser({ links, user }: Props) {
     const avatar = "https://avatars.githubusercontent.com/u/69819367?v=4";
 
     return (
@@ -69,18 +69,17 @@ export function NavUser({ user }: { user: SessionUser }) {
                 </DropdownMenuLabel>
                 <DropdownMenuSeparator />
                 <DropdownMenuGroup>
-                    <DropdownMenuItem className="gap-2">
-                        <BadgeCheck className="h-4 w-4 text-muted-foreground" />
-                        Account
-                    </DropdownMenuItem>
-                    <DropdownMenuItem className="gap-2">
-                        <CreditCard className="h-4 w-4 text-muted-foreground" />
-                        Billing
-                    </DropdownMenuItem>
-                    <DropdownMenuItem className="gap-2">
-                        <Bell className="h-4 w-4 text-muted-foreground" />
-                        Notifications
-                    </DropdownMenuItem>
+                    {links.map(({ name, url, icon: Icon }, index) => (
+                        <DropdownMenuItem key={`user-link-${index}`}>
+                            <Link
+                                href={url}
+                                className="w-full flex items-center gap-2"
+                            >
+                                <Icon className="h-4 w-4 text-muted-foreground" />
+                                {name}
+                            </Link>
+                        </DropdownMenuItem>
+                    ))}
                 </DropdownMenuGroup>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem

@@ -65,15 +65,19 @@ model Teacher {
     email    String      @unique
     password String
     role     TeacherRole @default(TEACHER)
+    classes  Class[]
 
     schoolId String
     school   School @relation(fields: [schoolId], references: [id])
 
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
-    classes   Class[]
+
+    subjectId Int?
+    Subject   Subject? @relation(fields: [subjectId], references: [id])
 
     @@index([schoolId])
+    @@index([subjectId])
 }
 
 model Student {
@@ -218,7 +222,18 @@ model Lesson {
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
 
+    subjectId Int?
+    Subject   Subject? @relation(fields: [subjectId], references: [id])
+
     @@index([schoolId])
+    @@index([subjectId])
+}
+
+model Subject {
+    id       Int       @id @default(autoincrement())
+    name     String    @unique
+    teachers Teacher[]
+    lessons  Lesson[]
 }
 
 model ResetToken {

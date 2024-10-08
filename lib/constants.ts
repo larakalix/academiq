@@ -1,3 +1,29 @@
+export const SUBJECTS = [
+    { name: "Mathematics" },
+    { name: "Science" },
+    { name: "English" },
+    { name: "History" },
+    { name: "Geography" },
+    { name: "Physics" },
+    { name: "Chemistry" },
+    { name: "Biology" },
+    { name: "Computer Science" },
+    { name: "Art" },
+    { name: "Music" },
+    { name: "Physical Education" },
+    { name: "Social Studies" },
+    { name: "Economics" },
+    { name: "Psychology" },
+    { name: "Environmental Science" },
+    { name: "Political Science" },
+    { name: "Philosophy" },
+    { name: "Business Studies" },
+    { name: "Health Education" },
+    { name: "Foreign Languages" }, // e.g., Spanish, French, German, etc.
+    { name: "Drama/Theater" },
+    { name: "Design and Technology" },
+];
+
 export const GENERIC_DATE_FORMAT = "MMMM dd, yyyy";
 
 export const MODULES = {

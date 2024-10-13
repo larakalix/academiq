@@ -29,6 +29,7 @@ export async function POST(req: Request) {
                     userId: "",
                 },
             });
+
             const teacher = await tx.teacher.create({
                 data: {
                     name,
@@ -37,6 +38,14 @@ export async function POST(req: Request) {
                     role: "TEACHER",
                     password: hashedPassword,
                     schoolId: school.id,
+                },
+            });
+
+            await tx.school.update({
+                where: { id: school.id },
+                data: {
+                    ...school,
+                    userId: teacher.id,
                 },
             });
 

@@ -6,8 +6,8 @@ export default async function MainLayout({
     children: React.ReactNode;
 }) {
     return (
-        // <AppProvider>
-        <AuthProvider>{children}</AuthProvider>
-        // </AppProvider>
+        <>
+            <AuthProvider>{children}</AuthProvider>
+        </>
     );
 }

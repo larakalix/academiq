@@ -1,8 +1,5 @@
 import {
-    Atom,
-    Eclipse,
     LifeBuoy,
-    Rabbit,
     Send,
     Settings2,
     Calendar,
@@ -16,9 +13,12 @@ import {
     SidebarItems,
     SidebarItemsWithIcon,
     SidebarProjectItems,
+    SidebarTeams,
 } from "../types/types";
+import { useGlobalStore } from "@/store/global.store";
 
 export const useSidebar = ({ schoolId }: { schoolId: string }) => {
+    const { user } = useGlobalStore((state) => state);
     const defaultRoute = `/dashboard/${schoolId}`;
 
     const NAV_MAIN_ITEMS: SidebarItems[] = [
@@ -150,24 +150,35 @@ export const useSidebar = ({ schoolId }: { schoolId: string }) => {
         },
     ];
 
+    const NAV_TEAMS: SidebarTeams[] =
+        user?.schools && user.schools.length > 0
+            ? user.schools.map((school) => ({
+                  id: school.id,
+                  name: school.name,
+                  logo: School,
+                  plan: "",
+              }))
+            : [];
+
     const data = {
-        teams: [
-            {
-                name: "Broward Plantation",
-                logo: Atom,
-                plan: "Enterprise",
-            },
-            {
-                name: "Broward Fort Lauderdale",
-                logo: Eclipse,
-                plan: "Startup",
-            },
-            {
-                name: "Broward Oakland Park",
-                logo: Rabbit,
-                plan: "Free",
-            },
-        ],
+        teams: NAV_TEAMS,
+        // teams: [
+        //     {
+        //         name: "Broward Plantation",
+        //         logo: Atom,
+        //         plan: "Enterprise",
+        //     },
+        //     {
+        //         name: "Broward Fort Lauderdale",
+        //         logo: Eclipse,
+        //         plan: "Startup",
+        //     },
+        //     {
+        //         name: "Broward Oakland Park",
+        //         logo: Rabbit,
+        //         plan: "Free",
+        //     },
+        // ],
         user: {
             name: "Ivan Lara",
             email: "ivanlara@booqself.com",
@@ -217,5 +228,5 @@ export const useSidebar = ({ schoolId }: { schoolId: string }) => {
         ],
     };
 
-    return { data };
+    return { data, user };
 };

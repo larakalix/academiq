@@ -9,6 +9,12 @@ export type SidebarItemsWithIcon = SidebarProjectItems & {
     icon: LucideIcon;
 };
 
+export type SidebarTeams = {
+    id: string;
+    name: string;
+    logo: LucideIcon;
+};
+
 export type SidebarItems = {
     title: string;
     url: string;

@@ -2,7 +2,6 @@
 
 import React from "react";
 import { User, Users, Volume, Calendar } from "lucide-react";
-import { useGlobalStore } from "@/store/global.store";
 import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
 
 type Props = {
@@ -18,8 +17,6 @@ export const DashboardHeader = ({
     announcements,
     events,
 }: Props) => {
-    const state = useGlobalStore((state) => state);
-
     return (
         <>
             <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">

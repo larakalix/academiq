@@ -20,17 +20,19 @@ import {
     PopoverTrigger,
 } from "@/components/ui/popover";
 import { Separator } from "@/components/ui/separator";
-import type { SidebarItems } from "./sidebar/types/types";
 import { STATIC_ROUTES } from "@/lib/routeConfig";
+import type { SidebarItems } from "./sidebar/types/types";
 
 export function NavMain({
     className,
     items,
     searchResults,
+    schoolId,
     allowSearch = false,
 }: {
     allowSearch?: boolean;
     items: SidebarItems[];
+    schoolId: string;
     searchResults: React.ComponentProps<typeof SidebarSearch>["results"];
 } & React.ComponentProps<"ul">) {
     const pathname = usePathname();
@@ -44,7 +46,7 @@ export function NavMain({
             )}
             <li>
                 <Link
-                    href={STATIC_ROUTES.dashboard}
+                    href={`${STATIC_ROUTES.dashboard}/${schoolId}`}
                     className={cn(
                         "min-w-8 flex h-8 items-center gap-2 overflow-hidden rounded-md px-2 text-sm font-medium text-muted-foreground ring-ring transition-all hover:bg-accent hover:text-accent-foreground focus-visible:ring-2"
                     )}

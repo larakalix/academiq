@@ -2,6 +2,7 @@ import React from "react";
 import Charts from "@/components/charts";
 import { DashboardHeader } from "@/components/dashboard/dashboard-header";
 import { getDashboardCounts } from "@/service/dashboard-metrics";
+import { RecentActivity } from "@/components/dashboard/recent-activity";
 
 export default async function Page({
     params,
@@ -15,8 +16,6 @@ export default async function Page({
 
     return (
         <>
-            <h1>Hello dashboard</h1>
-
             <DashboardHeader
                 teachers={teachers}
                 students={students}
@@ -24,7 +23,14 @@ export default async function Page({
                 events={events}
             />
 
-            <Charts />
+            <div className="grid grid-cols-1 md:grid-cols-6 gap-4">
+                <div className="col-span-1 md:col-span-4">
+                    <Charts />
+                </div>
+                <div className="col-span-1 md:col-span-2">
+                    <RecentActivity />
+                </div>
+            </div>
         </>
     );
 }

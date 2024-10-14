@@ -51,6 +51,7 @@ export function AppSidebar({ user, authUser, schoolId }: Props) {
                     <NavMain
                         items={data.navMain}
                         searchResults={data.searchResults}
+                        schoolId={schoolId}
                     />
                 </SidebarItem>
                 <SidebarItem>

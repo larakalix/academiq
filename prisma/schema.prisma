@@ -48,6 +48,7 @@ model School {
     lessons       Lesson[]
     announcements Announcement[]
     attendances   Attendance[]
+    customFields  CustomFields[]
 
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
@@ -94,8 +95,7 @@ model Student {
     schoolId String
     school   School @relation(fields: [schoolId], references: [id])
 
-    parentId String?
-    parent   Parent? @relation(fields: [parentId], references: [id])
+    parents Parent[]
 
     gradeId String?
     grade   Grade?  @relation(fields: [gradeId], references: [id])
@@ -106,7 +106,6 @@ model Student {
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
 
-    @@index([parentId])
     @@index([gradeId])
     @@index([classId])
     @@index([schoolId])
@@ -246,4 +245,22 @@ model ResetToken {
 
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
+}
+
+model CustomFields {
+    id          String  @id @default(cuid())
+    name        String
+    label       String
+    type        String
+    required    Boolean
+    isIndexable Boolean @default(false)
+    schemas     String[]
+
+    schoolId String
+    school   School @relation(fields: [schoolId], references: [id])
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    @@index([schoolId])
 }

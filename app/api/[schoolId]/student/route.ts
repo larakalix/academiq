@@ -17,6 +17,8 @@ export async function POST(
         const { name, email, genre, pin, phone, password } =
             (await req.json()) as Student;
 
+        console.log("DATA", { name, email, genre, pin, phone, password });
+
         await genericValidator({
             session,
             schoolId,

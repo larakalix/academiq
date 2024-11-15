@@ -256,6 +256,7 @@ model CustomFields {
     required     Boolean
     isIndexable  Boolean  @default(false)
     schemas      String[]
+    min          Int?     @default(1)
 
     schoolId String
     school   School @relation(fields: [schoolId], references: [id])

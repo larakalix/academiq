@@ -21,7 +21,7 @@ export const getStudentSchema = (customFields: CustomFields[]) => {
         switch (field.type) {
             case "string":
                 fieldSchema = field.required
-                    ? z.string()
+                    ? z.string().min(field.min || 1)
                     : z
                           .string()
                           .optional()

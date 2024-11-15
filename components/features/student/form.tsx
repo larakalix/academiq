@@ -3,7 +3,7 @@
 import React from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { getStudentSchema, type FormValues } from "./schema";
+import { getDefaultValues, getStudentSchema, type FormValues } from "./schema";
 import { useModule } from "@/hooks/use-module.hook";
 import { AlertModal } from "@/components/alert-modal";
 import {
@@ -51,13 +51,7 @@ export const StudentForm = ({ initialData, customFields }: Props) => {
 
     const form = useForm<FormValues>({
         resolver: zodResolver(getStudentSchema(customFields)),
-        defaultValues: initialData || {
-            name: "",
-            email: "",
-            phone: "",
-            pin: "",
-            password: "",
-        },
+        defaultValues: initialData || getDefaultValues(customFields),
     });
 
     const fields = [

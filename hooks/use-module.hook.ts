@@ -45,6 +45,8 @@ export const useModule = ({
 
             console.log(module, data);
 
+            return;
+
             if (isEdit) {
                 await axios.patch(
                     `${STATIC_API_AREA.api}/${params.schoolId}/${module}/${params.id}`,

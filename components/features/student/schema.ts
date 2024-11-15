@@ -22,7 +22,10 @@ export const getStudentSchema = (customFields: CustomFields[]) => {
             case "string":
                 fieldSchema = field.required
                     ? z.string()
-                    : z.string().optional().default(field.defaultValue as string);
+                    : z
+                          .string()
+                          .optional()
+                          .default(field.defaultValue as string);
                 break;
             case "number":
                 fieldSchema = field.required
@@ -32,7 +35,10 @@ export const getStudentSchema = (customFields: CustomFields[]) => {
             case "boolean":
                 fieldSchema = field.required
                     ? z.boolean()
-                    : z.boolean().optional().default(Boolean(field.defaultValue));
+                    : z
+                          .boolean()
+                          .optional()
+                          .default(Boolean(field.defaultValue));
                 break;
             case "date":
                 fieldSchema = field.required ? z.date() : z.date().optional();
@@ -44,7 +50,37 @@ export const getStudentSchema = (customFields: CustomFields[]) => {
         dynamicFields[field.name] = fieldSchema;
     });
 
-    const extendedSchema = formSchema.extend(dynamicFields);
+    return formSchema.extend(dynamicFields);
+};
 
-    return extendedSchema;
+export const getDefaultValues = (customFields: CustomFields[]) => {
+    const dynamicDefaults: Record<
+        string,
+        string | number | boolean | Date | unknown
+    > = {};
+
+    customFields.forEach((field) => {
+        if (field.type === "string") {
+            dynamicDefaults[field.name] = "";
+        } else if (field.type === "number") {
+            dynamicDefaults[field.name] = 0;
+        } else if (field.type === "boolean") {
+            dynamicDefaults[field.name] = false;
+        } else if (field.type === "date") {
+            dynamicDefaults[field.name] = null;
+        } else {
+            dynamicDefaults[field.name] = null;
+        }
+    });
+
+    return {
+        ...{
+            name: "",
+            email: "",
+            phone: "",
+            pin: "",
+            password: "",
+        },
+        ...dynamicDefaults,
+    };
 };

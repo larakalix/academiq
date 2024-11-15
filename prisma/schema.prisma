@@ -248,13 +248,14 @@ model ResetToken {
 }
 
 model CustomFields {
-    id          String  @id @default(cuid())
-    name        String
-    label       String
-    type        String
-    required    Boolean
-    isIndexable Boolean @default(false)
-    schemas     String[]
+    id           String   @id @default(cuid())
+    name         String
+    label        String
+    type         String
+    defaultValue String?  @default("")
+    required     Boolean
+    isIndexable  Boolean  @default(false)
+    schemas      String[]
 
     schoolId String
     school   School @relation(fields: [schoolId], references: [id])

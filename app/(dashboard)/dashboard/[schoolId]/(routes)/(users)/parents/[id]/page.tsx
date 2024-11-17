@@ -4,8 +4,7 @@ import { ListHeader } from "@/components/list-page-header/header";
 import { ParentForm } from "@/components/features/parent/form";
 import { MODULES } from "@/lib/constants";
 
-export default async function Page({ params: { id } }: { params: PageParams }) {
-    const schoolId = "1";
+export default async function Page({ params: { id, schoolId } }: { params: PageParams }) {
     const IS_NEW = id === "new";
     const data = IS_NEW
         ? null

@@ -37,6 +37,7 @@ model School {
     location String?
     socials  String[]
     userId   String
+    isActive Boolean  @default(true)
 
     parentSchoolId String?
 
@@ -64,6 +65,7 @@ model Teacher {
     name     String
     email    String      @unique
     password String
+    isActive Boolean     @default(true)
     role     TeacherRole @default(TEACHER)
     classes  Class[]
 
@@ -88,6 +90,7 @@ model Student {
     phone      String
     photo      String?
     password   String
+    isActive   Boolean      @default(true)
     genre      Genre
     attendance Attendance[]
 
@@ -119,6 +122,7 @@ model Parent {
     phone    String
     address  String
     password String
+    isActive Boolean   @default(true)
     students Student[]
 
     schoolId String
@@ -168,8 +172,9 @@ model Announcement {
 }
 
 model Grade {
-    id    String @id @default(cuid())
-    level String @unique
+    id       String  @id @default(cuid())
+    level    String  @unique
+    isActive Boolean @default(true)
 
     schoolId String
     school   School @relation(fields: [schoolId], references: [id])
@@ -184,9 +189,10 @@ model Grade {
 }
 
 model Class {
-    id       String @id @default(cuid())
-    name     String @unique
+    id       String  @id @default(cuid())
+    name     String  @unique
     capacity Int
+    isActive Boolean @default(true)
 
     students Student[]
 
@@ -213,6 +219,7 @@ model Lesson {
     day       Day
     startTime DateTime
     endTime   DateTime
+    isActive  Boolean  @default(true)
 
     announcements Announcement[]
 
@@ -232,6 +239,7 @@ model Lesson {
 model Subject {
     id       Int       @id @default(autoincrement())
     name     String    @unique
+    isActive Boolean   @default(true)
     teachers Teacher[]
     lessons  Lesson[]
 }

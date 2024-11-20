@@ -14,6 +14,7 @@ type Props = {
     avoidRedirect?: boolean;
     avoidRefresh?: boolean;
     refreshToId?: boolean;
+    id?: string;
 };
 
 export const useModule = ({
@@ -22,6 +23,7 @@ export const useModule = ({
     avoidRedirect = false,
     avoidRefresh = false,
     refreshToId = false,
+    id,
 }: Props) => {
     const [isPending, startTransition] = useTransition();
     const router = useRouter();
@@ -43,8 +45,6 @@ export const useModule = ({
         try {
             state.setLoading("loading");
 
-            console.log(module, data);
-
             if (isEdit) {
                 await axios.patch(
                     `${STATIC_API_AREA.api}/${params.schoolId}/${module}/${params.id}`,
@@ -65,7 +65,6 @@ export const useModule = ({
             }
 
             startTransition(() => {
-                if (!avoidRefresh) router.refresh();
                 if (!avoidRedirect)
                     router.push(
                         `${STATIC_ROUTES.dashboard}/${params.schoolId}/${pluralModuleName}`
@@ -73,9 +72,17 @@ export const useModule = ({
 
                 toast.success(toastMessage);
             });
+            startTransition(() => {
+                if (!avoidRefresh) router.refresh();
+            });
             // eslint-disable-next-line @typescript-eslint/no-unused-vars
         } catch (error) {
-            toast.error("Something went wrong.");
+            if (
+                axios.isAxiosError(error) &&
+                typeof error.response?.data === "string"
+            )
+                toast.error(error.response.data as string);
+            else toast.error("Something went wrong.");
 
             setTimeout(() => {
                 state.setLoading("idle");
@@ -90,13 +97,23 @@ export const useModule = ({
             state.setLoading("loading");
 
             await axios.delete(
-                `${STATIC_API_AREA.api}/${params.schoolId}/${module}/${params.id}`
+                `${STATIC_API_AREA.api}/${params.schoolId}/${module}/${
+                    id ?? params.id
+                }`
             );
-            router.refresh();
-            router.push(
-                `${STATIC_ROUTES.dashboard}/${params.schoolId}/${pluralModuleName}`
-            );
-            toast.success(`${moduleName} deleted.`);
+
+            startTransition(() => {
+                if (!avoidRedirect)
+                    router.push(
+                        `${STATIC_ROUTES.dashboard}/${params.schoolId}/${pluralModuleName}`
+                    );
+
+                toast.success(`${moduleName} deleted.`);
+            });
+
+            startTransition(() => {
+                if (!avoidRefresh) router.refresh();
+            });
             // eslint-disable-next-line @typescript-eslint/no-unused-vars
         } catch (error) {
             toast.error("Something went wrong.");

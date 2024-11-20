@@ -4,18 +4,29 @@ import { auth } from "@/auth";
 import prisma from "@/lib/prisma";
 import { genericValidator } from "@/lib/api/generic_validator";
 import type { Student } from "@prisma/client";
+import type { GenericApiParams } from "@/types/api";
 
 export async function POST(
     req: Request,
-    { params: { schoolId } }: { params: { schoolId: string } }
+    { params: { schoolId } }: { params: GenericApiParams }
 ) {
     try {
         const session = await auth();
         if (!session?.user)
             return new NextResponse("Unauthenticated", { status: 403 });
 
-        const { name, email, genre, pin, phone, password } =
+        const { name, email, genre, pin, phone, password, ...rest } =
             (await req.json()) as Student;
+
+        const studentExists = await prisma.student.findFirst({
+            where: { schoolId, OR: [{ email }, { pin }] },
+        });
+
+        if (studentExists) {
+            return new NextResponse("Student already exists", {
+                status: 500,
+            });
+        }
 
         await genericValidator({
             session,
@@ -47,6 +58,7 @@ export async function POST(
                 phone,
                 password: hashedPassword,
                 schoolId,
+                customFields: JSON.stringify(rest),
                 // categories: {
                 //     connect: categories.map((id: string) => ({ id })),
                 // },
@@ -70,6 +82,8 @@ export async function POST(
         });
     } catch (error) {
         console.log("[STUDENT_POST]", error);
-        return new NextResponse("Internal error", { status: 500 });
+        return new NextResponse("Internal error", {
+            status: 500,
+        });
     }
 }

@@ -25,6 +25,12 @@ enum Genre {
     FEMALE
 }
 
+enum RowStatus {
+    ACTIVE
+    ACHIVED
+    DELETE
+}
+
 model School {
     id       String   @id @default(cuid())
     slug     String   @unique
@@ -48,6 +54,7 @@ model School {
     lessons       Lesson[]
     announcements Announcement[]
     attendances   Attendance[]
+    customFields  CustomFields[]
 
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
@@ -76,26 +83,36 @@ model Teacher {
     subjectId Int?
     Subject   Subject? @relation(fields: [subjectId], references: [id])
 
+    students      Student[]
+    parents       Parent[]
+    announcements Announcement[]
+
+    createdById String?
+
+    status RowStatus @default(ACTIVE)
+
     @@index([schoolId])
     @@index([subjectId])
+    @@index([createdById])
 }
 
 model Student {
-    id         String       @id @default(cuid())
-    name       String
-    pin        String       @unique
-    email      String       @unique
-    phone      String
-    photo      String?
-    password   String
+    id           String  @id @default(cuid())
+    name         String
+    pin          String  @unique
+    email        String  @unique
+    phone        String
+    photo        String?
+    password     String
+    customFields Json?
+
     genre      Genre
     attendance Attendance[]
 
     schoolId String
     school   School @relation(fields: [schoolId], references: [id])
 
-    parentId String?
-    parent   Parent? @relation(fields: [parentId], references: [id])
+    parents Parent[]
 
     gradeId String?
     grade   Grade?  @relation(fields: [gradeId], references: [id])
@@ -103,13 +120,18 @@ model Student {
     classId String?
     class   Class?  @relation(fields: [classId], references: [id])
 
+    createdById String?
+    createdBy   Teacher? @relation(fields: [createdById], references: [id])
+
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
 
-    @@index([parentId])
+    status RowStatus @default(ACTIVE)
+
     @@index([gradeId])
     @@index([classId])
     @@index([schoolId])
+    @@index([createdById])
 }
 
 model Parent {
@@ -127,7 +149,13 @@ model Parent {
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
 
+    createdById String?
+    createdBy   Teacher? @relation(fields: [createdById], references: [id])
+
+    status RowStatus @default(ACTIVE)
+
     @@index([schoolId])
+    @@index([createdById])
 }
 
 model Attendance {
@@ -163,8 +191,14 @@ model Announcement {
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
 
+    createdById String?
+    createdBy   Teacher? @relation(fields: [createdById], references: [id])
+
+    status RowStatus @default(ACTIVE)
+
     @@index([lessonId])
     @@index([schoolId])
+    @@index([createdById])
 }
 
 model Grade {
@@ -246,4 +280,24 @@ model ResetToken {
 
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
+}
+
+model CustomFields {
+    id           String   @id @default(cuid())
+    name         String
+    label        String
+    type         String
+    defaultValue String?  @default("")
+    required     Boolean
+    isIndexable  Boolean  @default(false)
+    schemas      String[]
+    min          Int?     @default(1)
+
+    schoolId String
+    school   School @relation(fields: [schoolId], references: [id])
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    @@index([schoolId])
 }

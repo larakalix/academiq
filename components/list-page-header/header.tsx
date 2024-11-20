@@ -76,18 +76,20 @@ export const ListHeader = ({ module, lastAction }: Props) => {
                 </BreadcrumbList>
             </Breadcrumb>
 
-            <ul>
-                <li>
-                    <Link
-                        href={`${STATIC_ROUTES.dashboard}/${schoolId}/${module}/new`}
-                    >
-                        <Button>
-                            <Plus size={16} className="mr-2" />
-                            Add {singular(module)}
-                        </Button>
-                    </Link>
-                </li>
-            </ul>
+            {!params?.id && (
+                <ul>
+                    <li>
+                        <Link
+                            href={`${STATIC_ROUTES.dashboard}/${schoolId}/${module}/new`}
+                        >
+                            <Button>
+                                <Plus size={16} className="mr-2" />
+                                Add {singular(module)}
+                            </Button>
+                        </Link>
+                    </li>
+                </ul>
+            )}
         </nav>
     );
 };

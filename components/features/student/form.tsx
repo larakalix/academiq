@@ -3,7 +3,7 @@
 import React from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { formSchema, type FormValues } from "./schema";
+import { getDefaultValues, getStudentSchema, type FormValues } from "./schema";
 import { useModule } from "@/hooks/use-module.hook";
 import { AlertModal } from "@/components/alert-modal";
 import {
@@ -25,35 +25,31 @@ import {
     SelectValue,
 } from "@/components/ui/select";
 import { PasswordInput } from "@/components/form/password-input";
-import type { Student } from "@prisma/client";
+import type { CustomFields, Student } from "@prisma/client";
 
 type Props = {
     initialData: Student | null;
+    customFields: CustomFields[];
 };
 
 const GENRES = ["MALE", "FEMALE"] as const;
 
-export const StudentForm = ({ initialData }: Props) => {
-    const {
-        // action,
-        // title,
-        // description,
-        loading,
-        open,
-        setOpen,
-        onSubmit,
-        onDelete,
-    } = useModule({
+export const StudentForm = ({ initialData, customFields }: Props) => {
+    const { loading, open, setOpen, onSubmit, onDelete } = useModule({
         module: "student",
         isEdit: !!initialData,
     });
 
     const form = useForm<FormValues>({
-        resolver: zodResolver(formSchema),
-        defaultValues: initialData || {
-            name: "",
-            email: "",
-        },
+        resolver: zodResolver(getStudentSchema(customFields)),
+        defaultValues: initialData
+            ? {
+                  ...initialData,
+                  ...(initialData?.customFields
+                      ? JSON.parse(initialData.customFields as string)
+                      : {}),
+              }
+            : getDefaultValues(customFields),
     });
 
     const fields = [
@@ -149,8 +145,47 @@ export const StudentForm = ({ initialData }: Props) => {
                             />
                         </div>
 
+                        {customFields.length > 0 && (
+                            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                                <h2 className="text-xl font-medium text-zinc-800 col-span-1 md:col-span-3 border-b pb-4 mt-4">
+                                    Other information
+                                </h2>
+
+                                {customFields.map(
+                                    ({ id, name, type, label, required }) => (
+                                        <FormField
+                                            key={`custom-field-${id}`}
+                                            control={form.control}
+                                            name={name as keyof FormValues}
+                                            render={({ field }) => (
+                                                <FormItem>
+                                                    <FormLabel className="capitalize">
+                                                        {label}
+                                                    </FormLabel>
+                                                    <FormControl>
+                                                        <Input
+                                                            {...field}
+                                                            type={type}
+                                                            required={required}
+                                                            disabled={
+                                                                loading ===
+                                                                "loading"
+                                                            }
+                                                            placeholder={label}
+                                                        />
+                                                    </FormControl>
+
+                                                    <FormMessage className="font-medium mt-2 text-sm text-red-600 dark:text-red-500" />
+                                                </FormItem>
+                                            )}
+                                        />
+                                    )
+                                )}
+                            </div>
+                        )}
+
                         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                        <h2 className="text-xl font-medium text-zinc-800 col-span-1 md:col-span-3 border-b pb-4 mt-4">
+                            <h2 className="text-xl font-medium text-zinc-800 col-span-1 md:col-span-3 border-b pb-4 mt-4">
                                 Auth Configuration
                             </h2>
 

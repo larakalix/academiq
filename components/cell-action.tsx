@@ -5,6 +5,8 @@ import { Copy, Pencil } from "lucide-react";
 import { toast } from "react-hot-toast";
 import { Button } from "./ui/button";
 import { STATIC_ROUTES } from "@/lib/routeConfig";
+import { AlertModal } from "./alert-modal";
+import { useModule } from "@/hooks/use-module.hook";
 
 type Props = {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -21,25 +23,39 @@ export const CellAction = ({ data, module }: Props) => {
     const schoolId = String(params?.schoolId);
     const moduleName = module.charAt(0).toUpperCase() + module.slice(1);
 
+    const { open, loading, setOpen, onDelete } = useModule({
+        module,
+        isEdit: true,
+    });
+
     const onCopy = (id: string) => {
         navigator.clipboard.writeText(id);
         toast.success(`${moduleName} ID copied to clipboard.`);
     };
 
     return (
-        <div className="grid grid-cols-2 md:grid-cols-2 gap-2 ml-auto max-w-80">
-            <Button className="w-full" onClick={() => onCopy(data.id)}>
+        <div className="flex gap-1 justify-end max-w-80">
+            <Button onClick={() => onCopy(data.id)}>
                 <Copy className="mr-2 h-4 w-4" /> Copy Id
             </Button>
 
             <Link
                 href={`${STATIC_ROUTES.dashboard}/${schoolId}/${module}/${data.id}`}
-                className="w-full"
             >
-                <Button className="w-full">
-                    <Pencil className="mr-2 h-4 w-4" /> Edit
+                <Button variant="default">
+                    <Pencil className="h-4 w-4" />
                 </Button>
             </Link>
+
+            {/* <Button variant="destructive">
+                <Trash2 className="h-4 w-4" />
+            </Button> */}
+            <AlertModal
+                isOpen={open}
+                onClose={() => setOpen(false)}
+                onConfirm={onDelete}
+                loading={loading === "loading"}
+            />
         </div>
     );
 };

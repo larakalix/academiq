@@ -27,8 +27,47 @@ async function main() {
                 email: "lenhardt_larry@bws.us",
                 role: "PRINCIPAL",
                 password: hashedPassword,
+                status: "ACTIVE",
                 schoolId: school.id,
             },
+        });
+
+        await tx.customFields.createMany({
+            data: [
+                {
+                    defaultValue: "",
+                    isIndexable: true,
+                    label: "Religion",
+                    min: 1,
+                    name: "religion",
+                    required: true,
+                    schemas: ["student"],
+                    type: "string",
+                    schoolId: school.id,
+                },
+                {
+                    defaultValue: "",
+                    isIndexable: true,
+                    label: "Student Badge ID",
+                    min: 1,
+                    name: "badge",
+                    required: true,
+                    schemas: ["student"],
+                    type: "string",
+                    schoolId: school.id,
+                },
+                {
+                    defaultValue: "",
+                    isIndexable: true,
+                    label: "Shirt Size",
+                    min: 1,
+                    name: "size",
+                    required: true,
+                    schemas: ["student", "teacher"],
+                    type: "string",
+                    schoolId: school.id,
+                },
+            ],
         });
     });
 

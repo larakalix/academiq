@@ -35,23 +35,21 @@ type Props = {
 const GENRES = ["MALE", "FEMALE"] as const;
 
 export const StudentForm = ({ initialData, customFields }: Props) => {
-    const {
-        // action,
-        // title,
-        // description,
-        loading,
-        open,
-        setOpen,
-        onSubmit,
-        onDelete,
-    } = useModule({
+    const { loading, open, setOpen, onSubmit, onDelete } = useModule({
         module: "student",
         isEdit: !!initialData,
     });
 
     const form = useForm<FormValues>({
         resolver: zodResolver(getStudentSchema(customFields)),
-        defaultValues: initialData || getDefaultValues(customFields),
+        defaultValues: initialData
+            ? {
+                  ...initialData,
+                  ...(initialData?.customFields
+                      ? JSON.parse(initialData.customFields as string)
+                      : {}),
+              }
+            : getDefaultValues(customFields),
     });
 
     const fields = [

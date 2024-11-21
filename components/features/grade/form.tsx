@@ -98,10 +98,7 @@ export const GradeForm = ({ initialData, categories }: Props) => {
                                         </FormLabel>
                                         <Select
                                             disabled={loading === "loading"}
-                                            onValueChange={(value) => {
-                                                console.log(value);
-                                                field.onChange(value);
-                                            }}
+                                            onValueChange={field.onChange}
                                             value={field.value}
                                             defaultValue={field.value}
                                         >

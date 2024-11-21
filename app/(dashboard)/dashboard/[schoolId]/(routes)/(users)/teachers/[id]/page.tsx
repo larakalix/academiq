@@ -12,10 +12,10 @@ export default async function Page({
     const IS_NEW = id === "new";
     const data = IS_NEW
         ? null
-        : await prisma.teacher.findUnique({ where: { id } });
+        : await prisma.teacher.findUnique({ where: { id, schoolId } });
 
     const customFields = await prisma.customFields.findMany({
-        where: { OR: [{ schemas: { hasSome: ["student"] }, schoolId }] },
+        where: { OR: [{ schemas: { hasSome: ["teacher"] }, schoolId }] },
     });
 
     return (

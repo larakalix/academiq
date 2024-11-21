@@ -24,17 +24,8 @@ type Props = {
 };
 
 export const GradeForm = ({ initialData }: Props) => {
-    const {
-        // action,
-        // title,
-        // description,
-        loading,
-        open,
-        setOpen,
-        onSubmit,
-        onDelete,
-    } = useModule({
-        module: "announcement",
+    const { loading, open, setOpen, onSubmit, onDelete } = useModule({
+        module: "grade",
         isEdit: !!initialData,
     });
 
@@ -45,10 +36,7 @@ export const GradeForm = ({ initialData }: Props) => {
         },
     });
 
-    const fields = [
-        { name: "title", label: "Title" },
-        { name: "content", label: "Content" },
-    ];
+    const fields = [{ name: "level", label: "Level name" }];
 
     return (
         <>

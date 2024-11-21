@@ -14,16 +14,24 @@ import {
     FormLabel,
     FormMessage,
 } from "@/components/ui/form";
+import {
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
+} from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
 import { SubmitButton } from "@/components/form/submit-button";
 import { Card } from "@/components/ui/card";
-import type { Grade } from "@prisma/client";
+import type { Grade, GradeCategory } from "@prisma/client";
 
 type Props = {
     initialData: Grade | null;
+    categories: GradeCategory[];
 };
 
-export const GradeForm = ({ initialData }: Props) => {
+export const GradeForm = ({ initialData, categories }: Props) => {
     const { loading, open, setOpen, onSubmit, onDelete } = useModule({
         module: "grade",
         isEdit: !!initialData,
@@ -33,6 +41,7 @@ export const GradeForm = ({ initialData }: Props) => {
         resolver: zodResolver(formSchema),
         defaultValues: initialData || {
             level: "",
+            gradeCategoryId: "",
         },
     });
 
@@ -78,6 +87,51 @@ export const GradeForm = ({ initialData }: Props) => {
                                     )}
                                 />
                             ))}
+
+                            <FormField
+                                control={form.control}
+                                name="gradeCategoryId"
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormLabel className="capitalize">
+                                            Genre
+                                        </FormLabel>
+                                        <Select
+                                            disabled={loading === "loading"}
+                                            onValueChange={field.onChange}
+                                            value={field.value}
+                                            defaultValue={field.value}
+                                        >
+                                            <FormControl>
+                                                <SelectTrigger>
+                                                    <SelectValue
+                                                        defaultValue={
+                                                            field.value
+                                                        }
+                                                        className="capitalize"
+                                                        placeholder="Select a genre"
+                                                    />
+                                                </SelectTrigger>
+                                            </FormControl>
+                                            <SelectContent>
+                                                {categories.map(
+                                                    ({ id, name }) => (
+                                                        <SelectItem
+                                                            key={`category-${id}`}
+                                                            value={id}
+                                                            className="capitalize"
+                                                        >
+                                                            {name}
+                                                        </SelectItem>
+                                                    )
+                                                )}
+                                            </SelectContent>
+                                        </Select>
+
+                                        <FormMessage className="font-medium mt-2 text-sm text-red-600 dark:text-red-500" />
+                                    </FormItem>
+                                )}
+                            />
                         </div>
 
                         <SubmitButton

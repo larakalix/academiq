@@ -46,15 +46,16 @@ model School {
 
     parentSchoolId String?
 
-    students      Student[]
-    parents       Parent[]
-    teachers      Teacher[]
-    grades        Grade[]
-    classes       Class[]
-    lessons       Lesson[]
-    announcements Announcement[]
-    attendances   Attendance[]
-    customFields  CustomFields[]
+    students        Student[]
+    parents         Parent[]
+    teachers        Teacher[]
+    grades          Grade[]
+    gradeCategories GradeCategory[]
+    classes         Class[]
+    lessons         Lesson[]
+    announcements   Announcement[]
+    attendances     Attendance[]
+    customFields    CustomFields[]
 
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
@@ -225,7 +226,12 @@ model GradeCategory {
     id   String @id @default(cuid())
     name String
 
-    Grade Grade[]
+    grade Grade[]
+
+    schoolId String
+    school   School @relation(fields: [schoolId], references: [id])
+
+    @@index([schoolId])
 }
 
 model Class {

@@ -1,6 +1,6 @@
 import { PrismaClient } from "@prisma/client";
 
-const statusGlobalFilter = ["Teacher", "Student", "Parent", "Announcement"];
+const statusGlobalFilter = ["Teacher", "Student", "Parent", "Announcement", "Grade"];
 
 const prismaClientSingleton = () => {
     return new PrismaClient();

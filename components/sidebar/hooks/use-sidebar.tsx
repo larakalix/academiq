@@ -48,6 +48,10 @@ export const useSidebar = ({ schoolId }: { schoolId: string }) => {
             icon: School,
             items: [
                 {
+                    title: "Grades",
+                    url: `${defaultRoute}/grades`,
+                },
+                {
                     title: "Classes",
                     url: `${defaultRoute}/classes`,
                 },

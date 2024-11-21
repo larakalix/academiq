@@ -20,7 +20,7 @@ export const columns: ColumnDef<GradeColumn>[] = [
     {
         id: "actions",
         cell: ({ row }) => (
-            <CellAction data={row.original} module={MODULES.ANNOUNCEMENTS} />
+            <CellAction data={row.original} module={MODULES.GRADES} />
         ),
     },
 ];

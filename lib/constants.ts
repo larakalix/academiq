@@ -30,6 +30,7 @@ export const MODULES = {
     STUDENTS: "students",
     TEACHERS: "teachers",
     PARENTS: "parents",
+    GRADES: "grades",
     CLASSES: "classes",
     LESSONS: "lessons",
     EXAMS: "exams",

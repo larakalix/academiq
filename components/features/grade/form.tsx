@@ -17,24 +17,23 @@ import {
 import { Input } from "@/components/ui/input";
 import { SubmitButton } from "@/components/form/submit-button";
 import { Card } from "@/components/ui/card";
-import type { Grade } from "@prisma/client";
+import type { Grade, GradeCategory } from "@prisma/client";
+import {
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
+} from "@/components/ui/select";
 
 type Props = {
     initialData: Grade | null;
+    categories: GradeCategory[];
 };
 
-export const GradeForm = ({ initialData }: Props) => {
-    const {
-        // action,
-        // title,
-        // description,
-        loading,
-        open,
-        setOpen,
-        onSubmit,
-        onDelete,
-    } = useModule({
-        module: "announcement",
+export const GradeForm = ({ initialData, categories }: Props) => {
+    const { loading, open, setOpen, onSubmit, onDelete } = useModule({
+        module: "grade",
         isEdit: !!initialData,
     });
 
@@ -42,13 +41,11 @@ export const GradeForm = ({ initialData }: Props) => {
         resolver: zodResolver(formSchema),
         defaultValues: initialData || {
             level: "",
+            gradeCategoryId: "",
         },
     });
 
-    const fields = [
-        { name: "title", label: "Title" },
-        { name: "content", label: "Content" },
-    ];
+    const fields = [{ name: "level", label: "Level name" }];
 
     return (
         <>
@@ -90,6 +87,56 @@ export const GradeForm = ({ initialData }: Props) => {
                                     )}
                                 />
                             ))}
+
+                            <FormField
+                                control={form.control}
+                                name="gradeCategoryId"
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormLabel className="capitalize">
+                                            Grade category
+                                        </FormLabel>
+                                        <Select
+                                            disabled={loading === "loading"}
+                                            onValueChange={field.onChange}
+                                            value={field.value}
+                                            defaultValue={field.value}
+                                        >
+                                            <FormControl>
+                                                <SelectTrigger>
+                                                    <SelectValue
+                                                        defaultValue={
+                                                            field.value
+                                                        }
+                                                        className="capitalize"
+                                                        placeholder="Select a category"
+                                                    >
+                                                        {categories.find(
+                                                            (c) =>
+                                                                c.id ===
+                                                                field.value
+                                                        )?.name ||
+                                                            "Select category"}
+                                                    </SelectValue>
+                                                </SelectTrigger>
+                                            </FormControl>
+                                            <SelectContent>
+                                                {categories.map((category) => (
+                                                    <SelectItem
+                                                        key={category.id}
+                                                        value={category.id}
+                                                        className="capitalize"
+                                                    >
+                                                        {category.name}
+                                                    </SelectItem>
+                                                ))}
+                                            </SelectContent>
+                                        </Select>
+
+                                        <FormMessage className="font-medium mt-2 text-sm text-red-600 dark:text-red-500" />
+                                    </FormItem>
+                                )}
+                            />
                         </div>
 
                         <SubmitButton

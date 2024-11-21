@@ -162,23 +162,6 @@ export const useSidebar = ({ schoolId }: { schoolId: string }) => {
 
     const data = {
         teams: NAV_TEAMS,
-        // teams: [
-        //     {
-        //         name: "Broward Plantation",
-        //         logo: Atom,
-        //         plan: "Enterprise",
-        //     },
-        //     {
-        //         name: "Broward Fort Lauderdale",
-        //         logo: Eclipse,
-        //         plan: "Startup",
-        //     },
-        //     {
-        //         name: "Broward Oakland Park",
-        //         logo: Rabbit,
-        //         plan: "Free",
-        //     },
-        // ],
         user: {
             name: "Ivan Lara",
             email: "ivanlara@booqself.com",

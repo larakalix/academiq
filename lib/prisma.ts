@@ -11,22 +11,18 @@ declare const globalThis: {
 } & typeof global;
 
 const prisma = globalThis.prismaGlobal ?? prismaClientSingleton();
+prisma.$use(async (params, next) => {
+    if (
+        statusGlobalFilter.includes(params.model as string) &&
+        params.action === "findMany"
+    ) {
+        if (!params.args) params.args = {};
+        if (!params.args.where) params.args.where = {};
 
-prisma.$extends({
-    query: {
-        $allModels: {
-            async findMany({ model, args, query }) {
-                if (statusGlobalFilter.includes(model)) {
-                    if (!args) args = {};
-                    if (!args.where) args.where = {};
+        params.args.where.status = params.args.where.status || "ACTIVE";
+    }
 
-                    args.where.AND = [{ status: "ACTIVE" }];
-                }
-
-                return query(args);
-            },
-        },
-    },
+    return next(params);
 });
 
 export default prisma;

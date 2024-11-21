@@ -17,11 +17,12 @@ import {
 import { Input } from "@/components/ui/input";
 import { SubmitButton } from "@/components/form/submit-button";
 import { Card } from "@/components/ui/card";
-import type { Parent } from "@prisma/client";
 import { PasswordInput } from "@/components/form/password-input";
+import type { CustomFields, Parent } from "@prisma/client";
 
 type Props = {
     initialData: Parent | null;
+    customFields: CustomFields[];
 };
 
 export const ParentForm = ({ initialData }: Props) => {

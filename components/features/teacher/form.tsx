@@ -25,10 +25,11 @@ import {
     SelectValue,
 } from "@/components/ui/select";
 import { PasswordInput } from "@/components/form/password-input";
-import type { Teacher } from "@prisma/client";
+import type { CustomFields, Teacher } from "@prisma/client";
 
 type Props = {
     initialData: Teacher | null;
+    customFields: CustomFields[];
 };
 
 const ROLES = ["TEACHER", "TEACHER_ASSISTANT"] as const;

@@ -11,6 +11,10 @@ export default async function Page({ params: { id } }: { params: PageParams }) {
         ? null
         : await prisma.parent.findUnique({ where: { id, schoolId } });
 
+    const customFields = await prisma.customFields.findMany({
+        where: { OR: [{ schemas: { hasSome: ["parent"] }, schoolId }] },
+    });
+
     return (
         <>
             <ListHeader
@@ -18,7 +22,7 @@ export default async function Page({ params: { id } }: { params: PageParams }) {
                 lastAction={IS_NEW ? "create" : "edit"}
             />
 
-            <ParentForm initialData={data} />
+            <ParentForm initialData={data} customFields={customFields} />
         </>
     );
 }

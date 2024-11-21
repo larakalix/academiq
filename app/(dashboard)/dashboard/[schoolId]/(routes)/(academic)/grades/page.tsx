@@ -15,7 +15,7 @@ export default async function Page({
     const data = params.schoolId
         ? await prisma.grade.findMany({
               where: { schoolId: params.schoolId },
-              orderBy: { createdAt: "desc" },
+              orderBy: { level: "asc" },
           })
         : [];
 

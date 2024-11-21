@@ -14,6 +14,10 @@ import {
     FormLabel,
     FormMessage,
 } from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { SubmitButton } from "@/components/form/submit-button";
+import { Card } from "@/components/ui/card";
+import type { Grade, GradeCategory } from "@prisma/client";
 import {
     Select,
     SelectContent,
@@ -21,10 +25,6 @@ import {
     SelectTrigger,
     SelectValue,
 } from "@/components/ui/select";
-import { Input } from "@/components/ui/input";
-import { SubmitButton } from "@/components/form/submit-button";
-import { Card } from "@/components/ui/card";
-import type { Grade, GradeCategory } from "@prisma/client";
 
 type Props = {
     initialData: Grade | null;
@@ -94,11 +94,14 @@ export const GradeForm = ({ initialData, categories }: Props) => {
                                 render={({ field }) => (
                                     <FormItem>
                                         <FormLabel className="capitalize">
-                                            Genre
+                                            Grade category
                                         </FormLabel>
                                         <Select
                                             disabled={loading === "loading"}
-                                            onValueChange={field.onChange}
+                                            onValueChange={(value) => {
+                                                console.log(value);
+                                                field.onChange(value);
+                                            }}
                                             value={field.value}
                                             defaultValue={field.value}
                                         >
@@ -109,22 +112,27 @@ export const GradeForm = ({ initialData, categories }: Props) => {
                                                             field.value
                                                         }
                                                         className="capitalize"
-                                                        placeholder="Select a genre"
-                                                    />
+                                                        placeholder="Select a category"
+                                                    >
+                                                        {categories.find(
+                                                            (c) =>
+                                                                c.id ===
+                                                                field.value
+                                                        )?.name ||
+                                                            "Select category"}
+                                                    </SelectValue>
                                                 </SelectTrigger>
                                             </FormControl>
                                             <SelectContent>
-                                                {categories.map(
-                                                    ({ id, name }) => (
-                                                        <SelectItem
-                                                            key={`category-${id}`}
-                                                            value={id}
-                                                            className="capitalize"
-                                                        >
-                                                            {name}
-                                                        </SelectItem>
-                                                    )
-                                                )}
+                                                {categories.map((category) => (
+                                                    <SelectItem
+                                                        key={category.id}
+                                                        value={category.id}
+                                                        className="capitalize"
+                                                    >
+                                                        {category.name}
+                                                    </SelectItem>
+                                                ))}
                                             </SelectContent>
                                         </Select>
 

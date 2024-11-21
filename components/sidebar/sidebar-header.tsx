@@ -8,7 +8,7 @@ export const SidebarHeader = () => {
     const { user, school } = useGlobalStore((state) => state);
 
     return (
-        <header className="flex items-center gap-x-4">
+        <header className="flex items-center gap-x-4 max-w-6xl mx-auto">
             <SidebarTrigger className="bg-zinc-200 hover:bg-slate-900 hover:text-zinc-100" />
 
             <div className="flex flex-col gap-y-0">

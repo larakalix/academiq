@@ -29,8 +29,6 @@ export function TeamSwitcher({
 }) {
     const router = useRouter();
     const { school, setSchool } = useGlobalStore((state) => state);
-
-    // const activeTeam = teams.find((team) => team.id === schoolId) ?? teams[0];
     const [isPending, startTransition] = React.useTransition();
 
     const setActiveTeam = ({ id, name }: SidebarTeams) => {

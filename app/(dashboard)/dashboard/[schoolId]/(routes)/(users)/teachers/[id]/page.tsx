@@ -4,11 +4,19 @@ import { ListHeader } from "@/components/list-page-header/header";
 import { TeacherForm } from "@/components/features/teacher/form";
 import { MODULES } from "@/lib/constants";
 
-export default async function Page({ params: { id } }: { params: PageParams }) {
+export default async function Page({
+    params: { id, schoolId },
+}: {
+    params: PageParams;
+}) {
     const IS_NEW = id === "new";
     const data = IS_NEW
         ? null
         : await prisma.teacher.findUnique({ where: { id } });
+
+    const customFields = await prisma.customFields.findMany({
+        where: { OR: [{ schemas: { hasSome: ["student"] }, schoolId }] },
+    });
 
     return (
         <>
@@ -17,7 +25,7 @@ export default async function Page({ params: { id } }: { params: PageParams }) {
                 lastAction={IS_NEW ? "create" : "edit"}
             />
 
-            <TeacherForm initialData={data} />
+            <TeacherForm initialData={data} customFields={customFields} />
         </>
     );
 }

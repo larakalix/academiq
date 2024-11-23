@@ -4,17 +4,19 @@ import { auth } from "@/auth";
 import prisma from "@/lib/prisma";
 import { genericValidator } from "@/lib/api/generic_validator";
 import type { Teacher } from "@prisma/client";
+import type { GenericApiParams } from "@/types/api";
 
 export async function POST(
     req: Request,
-    { params: { schoolId } }: { params: { schoolId: string } }
+    { params: { schoolId } }: { params: GenericApiParams }
 ) {
     try {
         const session = await auth();
         if (!session?.user)
             return new NextResponse("Unauthenticated", { status: 403 });
 
-        const { name, email, role, password } = (await req.json()) as Teacher;
+        const { name, email, role, password, ...rest } =
+            (await req.json()) as Teacher;
 
         await genericValidator({
             session,
@@ -44,21 +46,8 @@ export async function POST(
                 role,
                 password: hashedPassword,
                 schoolId,
-                // categories: {
-                //     connect: categories.map((id: string) => ({ id })),
-                // },
-                // colors: {
-                //     connect: colors.map((id: string) => ({ id })),
-                // },
-                // sizes: {
-                //     connect: sizes.map((id: string) => ({ id })),
-                // },
+                customFields: JSON.stringify(rest),
             },
-            // include: {
-            //     categories: true,
-            //     colors: true,
-            //     sizes: true,
-            // },
         });
 
         return NextResponse.json({

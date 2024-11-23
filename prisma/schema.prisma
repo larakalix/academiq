@@ -40,6 +40,8 @@ model School {
     email    String
     logo     String
     website  String
+    country  String?
+    language String?
     location String?
     socials  String[]
     userId   String

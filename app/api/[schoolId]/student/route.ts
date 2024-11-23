@@ -59,21 +59,7 @@ export async function POST(
                 password: hashedPassword,
                 schoolId,
                 customFields: JSON.stringify(rest),
-                // categories: {
-                //     connect: categories.map((id: string) => ({ id })),
-                // },
-                // colors: {
-                //     connect: colors.map((id: string) => ({ id })),
-                // },
-                // sizes: {
-                //     connect: sizes.map((id: string) => ({ id })),
-                // },
             },
-            // include: {
-            //     categories: true,
-            //     colors: true,
-            //     sizes: true,
-            // },
         });
 
         return NextResponse.json({

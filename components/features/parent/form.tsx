@@ -3,7 +3,7 @@
 import React from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { formSchema, type FormValues } from "./schema";
+import { getDefaultValues, getParentSchema, type FormValues } from "./schema";
 import { useModule } from "@/hooks/use-module.hook";
 import { AlertModal } from "@/components/alert-modal";
 import {
@@ -25,28 +25,22 @@ type Props = {
     customFields: CustomFields[];
 };
 
-export const ParentForm = ({ initialData }: Props) => {
-    const {
-        // action,
-        // title,
-        // description,
-        loading,
-        open,
-        setOpen,
-        onSubmit,
-        onDelete,
-    } = useModule({
+export const ParentForm = ({ initialData, customFields }: Props) => {
+    const { loading, open, setOpen, onSubmit, onDelete } = useModule({
         module: "parent",
         isEdit: !!initialData,
     });
 
     const form = useForm<FormValues>({
-        resolver: zodResolver(formSchema),
-        defaultValues: initialData || {
-            name: "",
-            email: "",
-            address: "",
-        },
+        resolver: zodResolver(getParentSchema(customFields)),
+        defaultValues: initialData
+            ? {
+                  ...initialData,
+                  ...(initialData?.customFields
+                      ? JSON.parse(initialData.customFields as string)
+                      : {}),
+              }
+            : getDefaultValues(customFields),
     });
 
     const fields = [

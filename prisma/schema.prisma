@@ -72,6 +72,7 @@ model Teacher {
     name     String
     email    String      @unique
     password String
+    customFields Json?
     role     TeacherRole @default(TEACHER)
     classes  Class[]
 
@@ -142,6 +143,7 @@ model Parent {
     phone    String
     address  String
     password String
+    customFields Json?
     students Student[]
 
     schoolId String

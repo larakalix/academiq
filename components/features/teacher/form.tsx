@@ -3,7 +3,7 @@
 import React from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { formSchema, type FormValues } from "./schema";
+import { getDefaultValues, getTeacherSchema, type FormValues } from "./schema";
 import { useModule } from "@/hooks/use-module.hook";
 import { AlertModal } from "@/components/alert-modal";
 import {
@@ -34,34 +34,22 @@ type Props = {
 
 const ROLES = ["TEACHER", "TEACHER_ASSISTANT"] as const;
 
-export const TeacherForm = ({ initialData }: Props) => {
-    const {
-        // action,
-        // title,
-        // description,
-        loading,
-        open,
-        setOpen,
-        onSubmit,
-        onDelete,
-    } = useModule({
+export const TeacherForm = ({ initialData, customFields }: Props) => {
+    const { loading, open, setOpen, onSubmit, onDelete } = useModule({
         module: "teacher",
         isEdit: !!initialData,
     });
 
     const form = useForm<FormValues>({
-        resolver: zodResolver(formSchema),
+        resolver: zodResolver(getTeacherSchema(customFields)),
         defaultValues: initialData
             ? {
                   ...initialData,
-                  role: initialData.role as (typeof ROLES)[number],
+                  ...(initialData?.customFields
+                      ? JSON.parse(initialData.customFields as string)
+                      : {}),
               }
-            : {
-                  name: "",
-                  email: "",
-                  role: "TEACHER" as (typeof ROLES)[number],
-                  password: "",
-              },
+            : getDefaultValues(customFields),
     });
 
     const fields = [

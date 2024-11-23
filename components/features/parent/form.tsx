@@ -26,13 +26,7 @@ type Props = {
 };
 
 export const ParentForm = ({ initialData, customFields }: Props) => {
-    const {
-        loading,
-        open,
-        setOpen,
-        onSubmit,
-        onDelete,
-    } = useModule({
+    const { loading, open, setOpen, onSubmit, onDelete } = useModule({
         module: "parent",
         isEdit: !!initialData,
     });
@@ -40,18 +34,13 @@ export const ParentForm = ({ initialData, customFields }: Props) => {
     const form = useForm<FormValues>({
         resolver: zodResolver(getParentSchema(customFields)),
         defaultValues: initialData
-        ? {
-            ...initialData,
-            ...(initialData?.customFields
-                ? JSON.parse(initialData.customFields as string)
-                : {}),
-        }
-      : getDefaultValues(customFields),
-        // defaultValues: initialData || {
-        //     name: "",
-        //     email: "",
-        //     address: "",
-        // },
+            ? {
+                  ...initialData,
+                  ...(initialData?.customFields
+                      ? JSON.parse(initialData.customFields as string)
+                      : {}),
+              }
+            : getDefaultValues(customFields),
     });
 
     const fields = [

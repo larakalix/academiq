@@ -1,31 +1,29 @@
 import { NextResponse } from "next/server";
-import { hash } from "bcrypt";
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { auth } from "@/auth";
 import prisma from "@/lib/prisma";
 import { genericValidator } from "@/lib/api/generic_validator";
 import type { Teacher } from "@prisma/client";
+import type { GenericApiParamsWithId } from "@/types/api";
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const ENV = process.env.NEXT_ENV || "development";
 
 export async function GET(
     req: Request,
-    { params }: { params: { id: string } }
+    { params: { id, schoolId } }: { params: GenericApiParamsWithId }
 ) {
     try {
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         const session = await auth();
-        // if (!session?.user)
-        //     return new NextResponse("Unauthenticated", { status: 403 });
+        if (!session?.user)
+            return new NextResponse("Unauthenticated", { status: 403 });
 
-        if (!params.id)
+        if (!id)
             return new NextResponse("Teacher id is required", {
                 status: 400,
             });
 
         const teacher: Teacher | null = await prisma.teacher.findUnique({
-            where: { id: params.id },
+            where: { id, schoolId },
             include: {},
         });
 
@@ -41,21 +39,21 @@ export async function GET(
 
 export async function DELETE(
     req: Request,
-    { params }: { params: { id: string; schoolId: string } }
+    { params: { id, schoolId } }: { params: GenericApiParamsWithId }
 ) {
     try {
         const session = await auth();
         if (!session?.user)
             return new NextResponse("Unauthenticated", { status: 403 });
 
-        if (!params.id)
+        if (!id)
             return new NextResponse("Teacher id is required", {
                 status: 400,
             });
 
         const schoolByUserId = await prisma.school.findFirst({
             where: {
-                id: params.id,
+                id: schoolId,
                 userId: session?.user.id,
             },
         });
@@ -63,8 +61,9 @@ export async function DELETE(
         if (!schoolByUserId)
             return new NextResponse("Unauthorized", { status: 405 });
 
-        const data = await prisma.teacher.delete({
-            where: { id: params.id, schoolId: params.schoolId },
+        const data = await prisma.teacher.update({
+            where: { id, schoolId },
+            data: { status: "DELETE" },
         });
 
         return NextResponse.json({
@@ -79,18 +78,19 @@ export async function DELETE(
 
 export async function PATCH(
     req: Request,
-    { params }: { params: { id: string; schoolId: string } }
+    { params: { id, schoolId } }: { params: GenericApiParamsWithId }
 ) {
     try {
         const session = await auth();
         if (!session?.user)
             return new NextResponse("Unauthenticated", { status: 403 });
 
-        const { name, email, password } = (await req.json()) as Teacher;
+        const { name, email, password, ...rest } =
+            (await req.json()) as Teacher;
 
         await genericValidator({
             session,
-            schoolId: params.schoolId,
+            schoolId,
             data: [
                 { value: name, message: "Name is required", status: 400 },
                 { value: email, message: "Email is required", status: 400 },
@@ -100,18 +100,16 @@ export async function PATCH(
                     status: 400,
                 },
                 {
-                    value: params.id,
+                    value: id,
                     message: "School Id is required",
                     status: 400,
                 },
             ],
         });
 
-        const hashedPassword = await hash(password, 10);
-
         const data = await prisma.teacher.update({
-            where: { id: params.id },
-            data: { name, email, password: hashedPassword },
+            where: { id },
+            data: { name, email, schoolId, customFields: JSON.stringify(rest) },
         });
 
         return NextResponse.json({

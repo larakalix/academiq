@@ -3,7 +3,7 @@ import prisma from "@/lib/prisma";
 import { format } from "date-fns";
 import { GENERIC_DATE_FORMAT, MODULES } from "@/lib/constants";
 import { AnnouncementView } from "@/components/features/announcement/view";
-import { EmptyState } from "@/components/empty-state";
+import { EmptyState } from "@/components/ui/custom/empty-state";
 import { ListHeader } from "@/components/list-page-header/header";
 
 export default async function Page({

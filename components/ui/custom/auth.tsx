@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { SignIn } from "./features/auth/sign-in/sign-in";
+import { SignIn } from "../../features/auth/sign-in/sign-in";
 
 export default function Auth() {
     return (

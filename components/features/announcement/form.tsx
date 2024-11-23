@@ -5,7 +5,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { formSchema, type FormValues } from "./schema";
 import { useModule } from "@/hooks/use-module.hook";
-import { AlertModal } from "@/components/alert-modal";
+import { AlertModal } from "@/components/ui/custom/alert-modal";
 import {
     Form,
     FormControl,

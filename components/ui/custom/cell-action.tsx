@@ -3,7 +3,7 @@ import Link from "next/link";
 import { useParams } from "next/navigation";
 import { Copy, Pencil, Trash2 } from "lucide-react";
 import { toast } from "react-hot-toast";
-import { Button } from "./ui/button";
+import { Button } from "../button";
 import { STATIC_ROUTES } from "@/lib/routeConfig";
 import { AlertModal } from "./alert-modal";
 import { useModule } from "@/hooks/use-module.hook";

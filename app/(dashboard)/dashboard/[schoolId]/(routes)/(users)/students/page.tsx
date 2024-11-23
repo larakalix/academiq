@@ -2,7 +2,7 @@ import React from "react";
 import prisma from "@/lib/prisma";
 import { MODULES } from "@/lib/constants";
 import { StudentView } from "@/components/features/student/view";
-import { EmptyState } from "@/components/empty-state";
+import { EmptyState } from "@/components/ui/custom/empty-state";
 import { ListHeader } from "@/components/list-page-header/header";
 
 export default async function Page({

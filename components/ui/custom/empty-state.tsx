@@ -5,7 +5,7 @@ import Link from "next/link";
 import { useParams } from "next/navigation";
 import { Plus } from "lucide-react";
 import { singular } from "pluralize";
-import { Button } from "./ui/button";
+import { Button } from "../button";
 import { STATIC_ROUTES } from "@/lib/routeConfig";
 
 export const EmptyState = ({ module }: { module: string }) => {

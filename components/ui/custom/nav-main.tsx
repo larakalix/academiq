@@ -21,7 +21,7 @@ import {
 } from "@/components/ui/popover";
 import { Separator } from "@/components/ui/separator";
 import { STATIC_ROUTES } from "@/lib/routeConfig";
-import type { SidebarItems } from "./sidebar/types/types";
+import type { SidebarItems } from "../../sidebar/types/types";
 
 export function NavMain({
     className,

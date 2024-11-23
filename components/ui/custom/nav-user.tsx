@@ -11,7 +11,7 @@ import {
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { getInitials } from "@/lib/utils";
-import { SidebarItemsWithIcon } from "./sidebar/types/types";
+import { SidebarItemsWithIcon } from "../../sidebar/types/types";
 import Link from "next/link";
 
 type Props = {

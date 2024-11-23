@@ -1,6 +1,6 @@
 import React from "react";
 import Link from "next/link";
-import Auth from "@/components/auth";
+import Auth from "@/components/ui/custom/auth";
 import { auth } from "@/auth";
 import { STATIC_ROUTES } from "@/lib/routeConfig";
 import { cn } from "@/lib/utils";

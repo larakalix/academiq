@@ -1,4 +1,9 @@
 import * as z from "zod";
+import {
+    getCustomFieldsDefaultValues,
+    getCustomFieldsSchemaProps,
+} from "@/types/schemas/dynamic-schemas";
+import type { CustomFields } from "@prisma/client";
 
 export const formSchema = z.object({
     name: z.string().min(2),
@@ -8,3 +13,23 @@ export const formSchema = z.object({
 });
 
 export type FormValues = z.infer<typeof formSchema>;
+
+export const getTeacherSchema = (customFields: CustomFields[]) => {
+    const dynamicFields = getCustomFieldsSchemaProps(customFields);
+
+    return formSchema.extend(dynamicFields);
+};
+
+export const getDefaultValues = (customFields: CustomFields[]) => {
+    const dynamicDefaults = getCustomFieldsDefaultValues(customFields);
+
+    return {
+        ...{
+            name: "",
+            email: "",
+            password: "",
+            role: "TEACHER" as "TEACHER" | "TEACHER_ASSISTANT",
+        },
+        ...dynamicDefaults,
+    };
+};

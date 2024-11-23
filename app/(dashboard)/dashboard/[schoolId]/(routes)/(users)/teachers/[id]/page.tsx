@@ -2,6 +2,7 @@ import React from "react";
 import prisma from "@/lib/prisma";
 import { ListHeader } from "@/components/list-page-header/header";
 import { TeacherForm } from "@/components/features/teacher/form";
+import { getCustomFields } from "@/service/get-custom-fields";
 import { MODULES } from "@/lib/constants";
 
 export default async function Page({
@@ -14,9 +15,7 @@ export default async function Page({
         ? null
         : await prisma.teacher.findUnique({ where: { id, schoolId } });
 
-    const customFields = await prisma.customFields.findMany({
-        where: { OR: [{ schemas: { hasSome: ["teacher"] }, schoolId }] },
-    });
+    const customFields = await getCustomFields(schoolId, "teacher");
 
     return (
         <>

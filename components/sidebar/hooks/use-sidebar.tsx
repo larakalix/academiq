@@ -99,7 +99,7 @@ export const useSidebar = ({ schoolId }: { schoolId: string }) => {
             items: [
                 {
                     title: "General",
-                    url: `${defaultRoute}/settings`,
+                    url: `${defaultRoute}/schools`,
                 },
                 {
                     title: "Team",
@@ -157,11 +157,11 @@ export const useSidebar = ({ schoolId }: { schoolId: string }) => {
     const NAV_TEAMS: SidebarTeams[] =
         user?.schools && user.schools.length > 0
             ? user.schools.map((school) => ({
-                  id: school.id,
-                  name: school.name,
-                  logo: School,
-                  plan: "",
-              }))
+                id: school.id,
+                name: school.name,
+                logo: School,
+                plan: "",
+            }))
             : [];
 
     const data = {

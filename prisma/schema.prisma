@@ -46,6 +46,7 @@ model School {
     socials  String[]
     userId   String
 
+    internalIdPrefix String?
     parentSchoolId String?
 
     students        Student[]
@@ -298,9 +299,19 @@ model Lesson {
     @@index([subjectId])
 }
 
+enum SubjectType {
+    THEORY
+    PRACTICAL
+}
+
 model Subject {
-    id       Int       @id @default(autoincrement())
-    name     String    @unique
+    id   Int    @id @default(autoincrement())
+    name String @unique
+    code String
+    type SubjectType @default(THEORY)
+
+    status RowStatus @default(ACTIVE)
+
     teachers Teacher[]
     lessons  Lesson[]
 }

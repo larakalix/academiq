@@ -27,6 +27,7 @@ export const SUBJECTS = [
 export const GENERIC_DATE_FORMAT = "MMMM dd, yyyy";
 
 export const MODULES = {
+    SCHOOL: "schools",
     STUDENTS: "students",
     TEACHERS: "teachers",
     PARENTS: "parents",
@@ -522,3 +523,24 @@ export const PWD_WORDS = [
     ...germanWords,
     ...italianWords,
 ];
+
+export const phoneMasks = {
+    US: "+1 (000) 000-0000", // United States
+    CA: "+1 (000) 000-0000", // Canada
+    MX: "+52 000 000 0000", // Mexico
+    AR: "+54 0000 0000", // Argentina
+    CR: "+506 0000 0000", // Costa Rica
+    NI: "+505 0000 0000", // Nicaragua
+    PA: "+507 000-0000", // Panama
+    PE: "+51 000 000 000", // Peru
+    CO: "+57 000 000 0000", // Colombia
+    VE: "+58 0000 0000000", // Venezuela
+    CL: "+56 00 0000 0000", // Chile
+    EC: "+593 00 000 0000", // Ecuador
+    UY: "+598 000 000 000", // Uruguay
+    PY: "+595 000 000 000", // Paraguay
+    BO: "+591 0000 0000", // Bolivia
+    GT: "+502 0000 0000", // Guatemala
+    SV: "+503 0000 0000", // El Salvador
+    HN: "+504 0000 0000", // Honduras
+};

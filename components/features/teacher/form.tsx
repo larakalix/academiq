@@ -26,6 +26,7 @@ import {
 } from "@/components/ui/select";
 import { PasswordInput } from "@/components/form/password-input";
 import type { CustomFields, Teacher } from "@prisma/client";
+import { PhoneInput } from "@/components/form/phone-input";
 
 type Props = {
     initialData: Teacher | null;
@@ -98,6 +99,8 @@ export const TeacherForm = ({ initialData, customFields }: Props) => {
                                     )}
                                 />
                             ))}
+
+                            <PhoneInput loading={loading} />
 
                             <FormField
                                 control={form.control}

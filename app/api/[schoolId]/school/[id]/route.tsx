@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import { auth } from "@/auth";
 import prisma from "@/lib/prisma";
 import { genericValidator } from "@/lib/api/generic_validator";
-import type { Teacher } from "@prisma/client";
+import type { School } from "@prisma/client";
 import type { GenericApiParamsWithId } from "@/types/api";
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -10,7 +10,7 @@ const ENV = process.env.NEXT_ENV || "development";
 
 export async function GET(
     req: Request,
-    { params: { id, schoolId } }: { params: GenericApiParamsWithId }
+    { params: { id } }: { params: GenericApiParamsWithId }
 ) {
     try {
         const session = await auth();
@@ -18,21 +18,21 @@ export async function GET(
             return new NextResponse("Unauthenticated", { status: 403 });
 
         if (!id)
-            return new NextResponse("Teacher id is required", {
+            return new NextResponse("School id is required", {
                 status: 400,
             });
 
-        const teacher: Teacher | null = await prisma.teacher.findUnique({
-            where: { id, schoolId },
+        const data: School | null = await prisma.school.findUnique({
+            where: { id },
             include: {},
         });
 
         return NextResponse.json({
-            message: "Teacher fetched successfully",
-            data: teacher,
+            message: "School fetched successfully",
+            data,
         });
     } catch (error) {
-        console.log("[TEACHER_GET]", error);
+        console.log("[SCHOOL_GET]", error);
         return new NextResponse("Internal error", { status: 500 });
     }
 }
@@ -47,7 +47,7 @@ export async function DELETE(
             return new NextResponse("Unauthenticated", { status: 403 });
 
         if (!id)
-            return new NextResponse("Teacher id is required", {
+            return new NextResponse("School id is required", {
                 status: 400,
             });
 
@@ -61,17 +61,18 @@ export async function DELETE(
         if (!schoolByUserId)
             return new NextResponse("Unauthorized", { status: 405 });
 
-        const data = await prisma.teacher.update({
-            where: { id, schoolId },
-            data: { status: "DELETE" },
+        const data = await prisma.school.update({
+            where: { id },
+            data: {}
+            // data: { status: "DELETE" },
         });
 
         return NextResponse.json({
-            message: "Parent deleted successfully",
+            message: "School deleted successfully",
             data,
         });
     } catch (error) {
-        console.log("[TEACHER_DELETE]", error);
+        console.log("[PARENT_DELETE]", error);
         return new NextResponse("Internal error", { status: 500 });
     }
 }
@@ -85,8 +86,8 @@ export async function PATCH(
         if (!session?.user)
             return new NextResponse("Unauthenticated", { status: 403 });
 
-        const { name, email, password, phone, ...rest } =
-            (await req.json()) as Teacher;
+        const { name, email, address, phone, } =
+            (await req.json()) as School;
 
         await genericValidator({
             session,
@@ -96,11 +97,6 @@ export async function PATCH(
                 { value: email, message: "Email is required", status: 400 },
                 { value: phone, message: "Phone is required", status: 400 },
                 {
-                    value: password,
-                    message: "Password is required",
-                    status: 400,
-                },
-                {
                     value: id,
                     message: "School Id is required",
                     status: 400,
@@ -108,23 +104,22 @@ export async function PATCH(
             ],
         });
 
-        const data = await prisma.teacher.update({
+        const data = await prisma.school.update({
             where: { id },
             data: {
                 name,
                 email,
+                address,
                 phone,
-                schoolId,
-                customFields: JSON.stringify(rest),
             },
         });
 
         return NextResponse.json({
-            message: "Teacher updated successfully",
+            message: "School updated successfully",
             data,
         });
     } catch (error) {
-        console.log("[PARENT_PATCH]", error);
+        console.log("[SCHOOL_PATCH]", error);
         return new NextResponse("Internal error", { status: 500 });
     }
 }

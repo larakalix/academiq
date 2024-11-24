@@ -19,6 +19,7 @@ import { SubmitButton } from "@/components/form/submit-button";
 import { Card } from "@/components/ui/card";
 import { PasswordInput } from "@/components/form/password-input";
 import type { CustomFields, Parent } from "@prisma/client";
+import { PhoneInput } from "@/components/form/phone-input";
 
 type Props = {
     initialData: Parent | null;
@@ -46,7 +47,6 @@ export const ParentForm = ({ initialData, customFields }: Props) => {
     const fields = [
         { name: "name", label: "Name", placeholder: "John Doe" },
         { name: "email", label: "Email", placeholder: "jdoe@email.com" },
-        { name: "phone", label: "Phone", placeholder: "123-456-7890" },
         { name: "address", label: "Address", placeholder: "123 Main St" },
     ];
 
@@ -88,6 +88,8 @@ export const ParentForm = ({ initialData, customFields }: Props) => {
                                     )}
                                 />
                             ))}
+
+                            <PhoneInput loading={loading} />
                         </div>
 
                         {customFields.length > 0 && (

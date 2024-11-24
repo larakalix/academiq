@@ -8,7 +8,7 @@ export const getStudents = async (
     schoolId: string
 ): Promise<StudentColumn[]> => {
     try {
-        const grades = schoolId
+        const students = schoolId
             ? await prisma.student.findMany({
                   where: { schoolId },
                   include: { grade: true, parents: true },
@@ -16,7 +16,7 @@ export const getStudents = async (
               })
             : [];
 
-        const data = grades.map((student) => ({
+        const data = students.map((student) => ({
             ...student,
             grade: student.grade?.level ?? "",
             parents:

@@ -2,13 +2,18 @@
 
 import React from "react";
 import { DataTable } from "@/components/data-table/data-table";
-import { columns } from "./columns";
-import type { Parent } from "@prisma/client";
+import { getColumns, type ParentColumn } from "./columns";
 
-export function ParentView({ data }: { data: Parent[] }) {
+export function ParentView({
+    data,
+    schoolId,
+}: {
+    data: ParentColumn[];
+    schoolId: string;
+}) {
     return (
         <>
-            <DataTable data={data} columns={columns} />
+            <DataTable data={data} columns={getColumns(schoolId)} />
         </>
     );
 }

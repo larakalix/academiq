@@ -4,7 +4,7 @@ export const useLinks = ({ schoolId }: { schoolId: string }) => {
     const routes = [
         {
             name: "General",
-            url: `${STATIC_ROUTES.dashboard}/${schoolId}/settings`,
+            url: `${STATIC_ROUTES.dashboard}/${schoolId}/schools`,
         },
         {
             name: "Profile",

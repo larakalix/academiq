@@ -27,6 +27,7 @@ export const SUBJECTS = [
 export const GENERIC_DATE_FORMAT = "MMMM dd, yyyy";
 
 export const MODULES = {
+    SCHOOL: 'schools',
     STUDENTS: "students",
     TEACHERS: "teachers",
     PARENTS: "parents",

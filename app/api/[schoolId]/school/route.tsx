@@ -7,23 +7,22 @@ import type { GenericApiParams } from "@/types/api";
 
 export async function POST(
     req: Request,
-    { params: { } }: { params: GenericApiParams }
+    { params: { schoolId } }: { params: GenericApiParams }
 ) {
     try {
         const session = await auth();
         if (!session?.user)
             return new NextResponse("Unauthenticated", { status: 403 });
 
-        const { name, email, address, phone, } =
-            (await req.json()) as School;
+        const { name, email, address, phone } = (await req.json()) as School;
 
         await genericValidator({
             session,
+            schoolId,
             data: [
                 { value: name, message: "Name is required", status: 400 },
                 { value: email, message: "Email is required", status: 400 },
                 { value: phone, message: "Phone is required", status: 400 },
-
             ],
         });
 
@@ -33,10 +32,10 @@ export async function POST(
                 address,
                 email,
                 phone,
-                logo: '',
-                slug: '',
-                website: '',
-                userId: '',
+                logo: "",
+                slug: "",
+                website: "",
+                userId: "",
             },
         });
 

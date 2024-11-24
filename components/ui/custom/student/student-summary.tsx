@@ -1,18 +1,17 @@
+"use client";
+
 import React from "react";
 import { Mail, Phone } from "lucide-react";
 import {
     Drawer,
-    DrawerClose,
     DrawerContent,
     DrawerDescription,
-    DrawerFooter,
     DrawerHeader,
-    DrawerTitle,
     DrawerTrigger,
 } from "../../drawer";
 import { Button } from "../../button";
 import { Avatar, AvatarFallback, AvatarImage } from "../../avatar";
-import { getInitials } from "@/lib/utils";
+import { cn, getInitials } from "@/lib/utils";
 import type { Student } from "@/types/schemas/students";
 
 type Props = {
@@ -31,7 +30,7 @@ export const StudentSummary = ({ student }: Props) => {
                 <DrawerHeader>
                     <DrawerDescription className="flex flex-col gap-4 pt-8">
                         <section className="flex flex-col md:flex-row flex-wrap gap-6 md:gap-20 px-0 xl:px-8 justify-center md:justify-start">
-                            <figure className="flex justify-center items-center">
+                            <figure className="relative flex justify-center items-center">
                                 <Avatar className="size-52">
                                     <AvatarImage
                                         src={student.photo ?? ""}
@@ -44,6 +43,29 @@ export const StudentSummary = ({ student }: Props) => {
                             </figure>
 
                             <div className="flex flex-col">
+                                <span
+                                    className={cn(
+                                        "capitalize text-white px-2 py-1 rounded-full w-fit text-sm",
+                                        {
+                                            "bg-green-500":
+                                                student.studentStatus ===
+                                                "ACTIVE",
+                                            "bg-yellow-500":
+                                                student.studentStatus ===
+                                                "SUSPENDED",
+                                            "bg-red-500":
+                                                student.studentStatus ===
+                                                "INACTIVE",
+                                            "bg-blue-500":
+                                                student.studentStatus ===
+                                                    "TRANSFERRED" ||
+                                                student.studentStatus ===
+                                                    "GRADUATED",
+                                        }
+                                    )}
+                                >
+                                    {student.studentStatus?.toLocaleLowerCase()}
+                                </span>
                                 <h2 className="text-lg text-zinc-950 font-semibold text-center md:text-start">
                                     {student.name} Summary
                                 </h2>
@@ -63,11 +85,6 @@ export const StudentSummary = ({ student }: Props) => {
                         </section>
                     </DrawerDescription>
                 </DrawerHeader>
-                {/* <DrawerFooter>
-                    <DrawerClose>
-                        <Button variant="outline">Cancel</Button>
-                    </DrawerClose>
-                </DrawerFooter> */}
             </DrawerContent>
         </Drawer>
     );

@@ -12,6 +12,7 @@ export const formSchema = z.object({
     pin: z.string().min(4),
     phone: z.string().min(10),
     password: z.string().min(6),
+    gradeId: z.string().min(1, "Grade is required"),
 });
 
 export type FormValues = z.infer<typeof formSchema>;
@@ -32,6 +33,7 @@ export const getDefaultValues = (customFields: CustomFields[]) => {
             phone: "",
             pin: "",
             password: "",
+            gradeId: "",
         },
         ...dynamicDefaults,
     };

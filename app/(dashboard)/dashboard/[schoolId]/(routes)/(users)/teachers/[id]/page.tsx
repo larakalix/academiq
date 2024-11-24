@@ -2,7 +2,7 @@ import React from "react";
 import prisma from "@/lib/prisma";
 import { ListHeader } from "@/components/list-page-header/header";
 import { TeacherForm } from "@/components/features/teacher/form";
-import { getCustomFields } from "@/service/get-custom-fields";
+import { getCustomFields } from "@/service/schemas/get-custom-fields";
 import { MODULES } from "@/lib/constants";
 
 export default async function Page({

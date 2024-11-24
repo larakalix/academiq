@@ -2,10 +2,9 @@
 
 import React from "react";
 import { DataTable } from "@/components/data-table/data-table";
-import { columns } from "./columns";
-import type { Student } from "@prisma/client";
+import { columns, StudentColumn } from "./columns";
 
-export function StudentView({ data }: { data: Student[] }) {
+export function StudentView({ data }: { data: StudentColumn[] }) {
     return (
         <>
             <DataTable data={data} columns={columns} />

@@ -26,15 +26,17 @@ import {
 } from "@/components/ui/select";
 import { PasswordInput } from "@/components/form/password-input";
 import type { CustomFields, Student } from "@prisma/client";
+import { GradeCatalogue } from "@/types/catalogue/catalogue";
 
 type Props = {
     initialData: Student | null;
     customFields: CustomFields[];
+    grades: GradeCatalogue[];
 };
 
 const GENRES = ["MALE", "FEMALE"] as const;
 
-export const StudentForm = ({ initialData, customFields }: Props) => {
+export const StudentForm = ({ initialData, customFields, grades }: Props) => {
     const { loading, open, setOpen, onSubmit, onDelete } = useModule({
         module: "student",
         isEdit: !!initialData,
@@ -100,6 +102,51 @@ export const StudentForm = ({ initialData, customFields }: Props) => {
                                     )}
                                 />
                             ))}
+
+                            {grades.length > 0 && (
+                                <FormField
+                                    control={form.control}
+                                    name="gradeId"
+                                    render={({ field }) => (
+                                        <FormItem>
+                                            <FormLabel className="capitalize">
+                                                Grade
+                                            </FormLabel>
+                                            <Select
+                                                disabled={loading === "loading"}
+                                                onValueChange={field.onChange}
+                                                value={field.value}
+                                                defaultValue={field.value}
+                                            >
+                                                <FormControl>
+                                                    <SelectTrigger>
+                                                        <SelectValue
+                                                            defaultValue={
+                                                                field.value
+                                                            }
+                                                            className="capitalize"
+                                                            placeholder="Select a grade"
+                                                        />
+                                                    </SelectTrigger>
+                                                </FormControl>
+                                                <SelectContent>
+                                                    {grades.map((grade) => (
+                                                        <SelectItem
+                                                            key={`grade-${grade.id}`}
+                                                            value={grade.id}
+                                                            className="capitalize"
+                                                        >
+                                                            {grade.level}
+                                                        </SelectItem>
+                                                    ))}
+                                                </SelectContent>
+                                            </Select>
+
+                                            <FormMessage className="font-medium mt-2 text-sm text-red-600 dark:text-red-500" />
+                                        </FormItem>
+                                    )}
+                                />
+                            )}
 
                             <FormField
                                 control={form.control}

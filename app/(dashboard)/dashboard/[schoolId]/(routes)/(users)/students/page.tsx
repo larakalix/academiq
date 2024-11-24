@@ -1,9 +1,9 @@
 import React from "react";
-import prisma from "@/lib/prisma";
 import { MODULES } from "@/lib/constants";
 import { StudentView } from "@/components/features/student/view";
 import { EmptyState } from "@/components/ui/custom/empty-state";
 import { ListHeader } from "@/components/list-page-header/header";
+import { getStudents } from "@/service/schemas/get-students";
 
 export default async function Page({
     params,
@@ -12,12 +12,7 @@ export default async function Page({
         schoolId: string;
     };
 }) {
-    const data = params.schoolId
-        ? await prisma.student.findMany({
-              where: { schoolId: params.schoolId },
-              orderBy: { createdAt: "desc" },
-          })
-        : [];
+    const data = await getStudents(params.schoolId);
 
     return (
         <>

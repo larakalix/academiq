@@ -26,7 +26,7 @@ export default async function Page({
             {data.length === 0 ? (
                 <EmptyState module={MODULES.GRADES} />
             ) : (
-                <GradesView data={data} />
+                <GradesView data={data} schoolId={params.schoolId} />
             )}
         </>
     );

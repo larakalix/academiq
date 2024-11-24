@@ -7,12 +7,16 @@ export type StudentColumn = {
     id: string;
     name: string;
     email: string;
+    grade: string;
+    parents: string;
     createdAt: Date;
 };
 
 export const columns: ColumnDef<StudentColumn>[] = [
     { accessorKey: "name", header: "Name" },
     { accessorKey: "email", header: "Email" },
+    { accessorKey: "grade", header: "Grade" },
+    { accessorKey: "parents", header: "Parents" },
     {
         accessorKey: "createdAt",
         header: "Created at",

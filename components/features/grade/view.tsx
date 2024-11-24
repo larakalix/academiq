@@ -2,12 +2,12 @@
 
 import React from "react";
 import { DataTable } from "@/components/data-table/data-table";
-import { columns, type GradeColumn } from "./columns";
+import { getColumns, type GradeColumn } from "./columns";
 
-export function GradesView({ data }: { data: GradeColumn[] }) {
+export function GradesView({ data, schoolId }: { data: GradeColumn[]; schoolId: string }) {
     return (
         <>
-            <DataTable data={data} columns={columns} />
+            <DataTable data={data} columns={getColumns(schoolId)} />
         </>
     );
 }

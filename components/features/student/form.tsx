@@ -27,6 +27,7 @@ import {
 import { PasswordInput } from "@/components/form/password-input";
 import type { $Enums, CustomFields, Student } from "@prisma/client";
 import { GradeCatalogue } from "@/types/catalogue/catalogue";
+import { PhoneInput } from "@/components/form/phone-input";
 
 type Props = {
     initialData: Student | null;
@@ -57,7 +58,6 @@ export const StudentForm = ({ initialData, customFields, grades }: Props) => {
     const fields = [
         { name: "name", label: "Name", placeholder: "John Doe" },
         { name: "email", label: "Email", placeholder: "jdoe@email.com" },
-        { name: "phone", label: "Phone", placeholder: "123-456-7890" },
         { name: "pin", label: "PIN", placeholder: "1234" },
     ];
 
@@ -102,6 +102,8 @@ export const StudentForm = ({ initialData, customFields, grades }: Props) => {
                                     )}
                                 />
                             ))}
+
+                            <PhoneInput loading={loading} />
 
                             {grades.length > 0 && (
                                 <FormField

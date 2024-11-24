@@ -9,6 +9,7 @@ export const formSchema = z.object({
     name: z.string().min(2),
     email: z.string().email(),
     password: z.string().min(8).max(100),
+    phone: z.string().min(10),
     role: z.enum(["TEACHER", "TEACHER_ASSISTANT"]),
 });
 
@@ -27,6 +28,7 @@ export const getDefaultValues = (customFields: CustomFields[]) => {
         ...{
             name: "",
             email: "",
+            phone: "",
             password: "",
             role: "TEACHER" as "TEACHER" | "TEACHER_ASSISTANT",
         },

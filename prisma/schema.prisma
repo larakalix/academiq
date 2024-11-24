@@ -115,6 +115,7 @@ model Student {
     email        String  @unique
     phone        String
     photo        String?
+    dob          DateTime?
     password     String
     customFields Json?
 

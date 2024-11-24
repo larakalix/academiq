@@ -25,7 +25,7 @@ import {
     SelectValue,
 } from "@/components/ui/select";
 import { PasswordInput } from "@/components/form/password-input";
-import type { CustomFields, Student } from "@prisma/client";
+import type { $Enums, CustomFields, Student } from "@prisma/client";
 import { GradeCatalogue } from "@/types/catalogue/catalogue";
 
 type Props = {
@@ -180,7 +180,14 @@ export const StudentForm = ({ initialData, customFields, grades }: Props) => {
                                                         value={genre}
                                                         className="capitalize"
                                                     >
-                                                        {genre}
+                                                        {
+                                                            {
+                                                                MALE: "Boy",
+                                                                FEMALE: "Girl",
+                                                            }[
+                                                                genre as $Enums.Genre
+                                                            ]
+                                                        }
                                                     </SelectItem>
                                                 ))}
                                             </SelectContent>

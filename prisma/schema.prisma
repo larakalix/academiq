@@ -73,6 +73,7 @@ model Teacher {
     id           String      @id @default(cuid())
     name         String
     email        String      @unique
+    phone        String      @default("")
     password     String
     customFields Json?
     role         TeacherRole @default(TEACHER)
@@ -109,10 +110,10 @@ enum StudentStatus {
 }
 
 model Student {
-    id           String  @id @default(cuid())
+    id           String    @id @default(cuid())
     name         String
-    pin          String  @unique
-    email        String  @unique
+    pin          String    @unique
+    email        String    @unique
     phone        String
     photo        String?
     dob          DateTime?

@@ -85,7 +85,7 @@ export async function PATCH(
         if (!session?.user)
             return new NextResponse("Unauthenticated", { status: 403 });
 
-        const { name, email, password, ...rest } =
+        const { name, email, password, phone, ...rest } =
             (await req.json()) as Teacher;
 
         await genericValidator({
@@ -94,6 +94,7 @@ export async function PATCH(
             data: [
                 { value: name, message: "Name is required", status: 400 },
                 { value: email, message: "Email is required", status: 400 },
+                { value: phone, message: "Phone is required", status: 400 },
                 {
                     value: password,
                     message: "Password is required",
@@ -109,7 +110,13 @@ export async function PATCH(
 
         const data = await prisma.teacher.update({
             where: { id },
-            data: { name, email, schoolId, customFields: JSON.stringify(rest) },
+            data: {
+                name,
+                email,
+                phone,
+                schoolId,
+                customFields: JSON.stringify(rest),
+            },
         });
 
         return NextResponse.json({

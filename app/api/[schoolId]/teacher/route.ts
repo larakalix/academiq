@@ -15,7 +15,7 @@ export async function POST(
         if (!session?.user)
             return new NextResponse("Unauthenticated", { status: 403 });
 
-        const { name, email, role, password, ...rest } =
+        const { name, email, role, password, phone, ...rest } =
             (await req.json()) as Teacher;
 
         await genericValidator({
@@ -25,6 +25,7 @@ export async function POST(
                 { value: name, message: "Name is required", status: 400 },
                 { value: email, message: "Email is required", status: 400 },
                 { value: role, message: "Role is required", status: 400 },
+                { value: phone, message: "Phone is required", status: 400 },
                 {
                     value: password,
                     message: "Password is required",
@@ -44,6 +45,7 @@ export async function POST(
                 name,
                 email,
                 role,
+                phone,
                 password: hashedPassword,
                 schoolId,
                 customFields: JSON.stringify(rest),

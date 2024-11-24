@@ -5,7 +5,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { getDefaultValues, getParentSchema, type FormValues } from "./schema";
 import { useModule } from "@/hooks/use-module.hook";
-import { AlertModal } from "@/components/alert-modal";
+import { AlertModal } from "@/components/ui/custom/alert-modal";
 import {
     Form,
     FormControl,
@@ -89,6 +89,45 @@ export const ParentForm = ({ initialData, customFields }: Props) => {
                                 />
                             ))}
                         </div>
+
+                        {customFields.length > 0 && (
+                            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                                <h2 className="text-xl font-medium text-zinc-800 col-span-1 md:col-span-3 border-b pb-4 mt-4">
+                                    Other information
+                                </h2>
+
+                                {customFields.map(
+                                    ({ id, name, type, label, required }) => (
+                                        <FormField
+                                            key={`custom-field-${id}`}
+                                            control={form.control}
+                                            name={name as keyof FormValues}
+                                            render={({ field }) => (
+                                                <FormItem>
+                                                    <FormLabel className="capitalize">
+                                                        {label}
+                                                    </FormLabel>
+                                                    <FormControl>
+                                                        <Input
+                                                            {...field}
+                                                            type={type}
+                                                            required={required}
+                                                            disabled={
+                                                                loading ===
+                                                                "loading"
+                                                            }
+                                                            placeholder={label}
+                                                        />
+                                                    </FormControl>
+
+                                                    <FormMessage className="font-medium mt-2 text-sm text-red-600 dark:text-red-500" />
+                                                </FormItem>
+                                            )}
+                                        />
+                                    )
+                                )}
+                            </div>
+                        )}
 
                         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                             <h2 className="text-xl font-medium text-zinc-800 col-span-1 md:col-span-3 border-b pb-4 mt-4">

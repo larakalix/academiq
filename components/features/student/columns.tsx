@@ -1,18 +1,22 @@
 import { ColumnDef } from "@tanstack/react-table";
 import { format } from "date-fns";
-import { CellAction } from "@/components/cell-action";
+import { CellAction } from "@/components/ui/custom/cell-action";
 import { GENERIC_DATE_FORMAT, MODULES } from "@/lib/constants";
 
 export type StudentColumn = {
     id: string;
     name: string;
     email: string;
+    grade: string;
+    parents: string;
     createdAt: Date;
 };
 
 export const columns: ColumnDef<StudentColumn>[] = [
     { accessorKey: "name", header: "Name" },
     { accessorKey: "email", header: "Email" },
+    { accessorKey: "grade", header: "Grade" },
+    { accessorKey: "parents", header: "Parents" },
     {
         accessorKey: "createdAt",
         header: "Created at",

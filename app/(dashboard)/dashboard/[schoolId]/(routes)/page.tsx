@@ -1,5 +1,5 @@
 import React from "react";
-import Charts from "@/components/charts";
+import Charts from "@/components/ui/custom/charts";
 import { DashboardHeader } from "@/components/dashboard/dashboard-header";
 import { getDashboardCounts } from "@/service/dashboard-metrics";
 import { RecentActivity } from "@/components/dashboard/recent-activity";

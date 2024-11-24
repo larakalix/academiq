@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { PlusSquare } from "lucide-react";
 import { cn } from "@/lib/utils";
-import type { SidebarProjectItems } from "./sidebar/types/types";
+import type { SidebarProjectItems } from "../../sidebar/types/types";
 
 export function NavProjects({
     projects,

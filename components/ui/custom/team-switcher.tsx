@@ -16,7 +16,7 @@ import {
 import { STATIC_ROUTES } from "@/lib/routeConfig";
 import { useGlobalStore } from "@/store/global.store";
 import type { AuthTeacher } from "@/types/service";
-import type { SidebarTeams } from "./sidebar/types/types";
+import type { SidebarTeams } from "../../sidebar/types/types";
 
 export function TeamSwitcher({
     teams,

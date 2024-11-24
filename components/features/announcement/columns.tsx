@@ -1,6 +1,6 @@
 import { ColumnDef } from "@tanstack/react-table";
 import { format } from "date-fns";
-import { CellAction } from "@/components/cell-action";
+import { CellAction } from "@/components/ui/custom/cell-action";
 import { GENERIC_DATE_FORMAT, MODULES } from "@/lib/constants";
 
 export type AnnouncementColumn = {

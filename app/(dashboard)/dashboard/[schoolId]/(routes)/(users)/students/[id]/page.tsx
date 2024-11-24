@@ -2,8 +2,9 @@ import React from "react";
 import prisma from "@/lib/prisma";
 import { ListHeader } from "@/components/list-page-header/header";
 import { StudentForm } from "@/components/features/student/form";
-import { getCustomFields } from "@/service/get-custom-fields";
+import { getCustomFields } from "@/service/schemas/get-custom-fields";
 import { MODULES } from "@/lib/constants";
+import { getGradesCatalogue } from "@/service/catalogues/get-grades-catalogue";
 
 export default async function Page({
     params: { id, schoolId },
@@ -15,7 +16,10 @@ export default async function Page({
         ? null
         : await prisma.student.findUnique({ where: { id, schoolId } });
 
-    const customFields = await getCustomFields(schoolId, "student");
+    const [customFields, grades] = await Promise.all([
+        getCustomFields(schoolId, "student"),
+        getGradesCatalogue(schoolId),
+    ]);
 
     return (
         <>
@@ -24,7 +28,7 @@ export default async function Page({
                 lastAction={IS_NEW ? "create" : "edit"}
             />
 
-            <StudentForm initialData={data} customFields={customFields} />
+            <StudentForm initialData={data} customFields={customFields} grades={grades} />
         </>
     );
 }

@@ -40,6 +40,8 @@ model School {
     email    String
     logo     String
     website  String
+    country  String?
+    language String?
     location String?
     socials  String[]
     userId   String
@@ -68,13 +70,13 @@ enum TeacherRole {
 }
 
 model Teacher {
-    id       String      @id @default(cuid())
-    name     String
-    email    String      @unique
-    password String
+    id           String      @id @default(cuid())
+    name         String
+    email        String      @unique
+    password     String
     customFields Json?
-    role     TeacherRole @default(TEACHER)
-    classes  Class[]
+    role         TeacherRole @default(TEACHER)
+    classes      Class[]
 
     schoolId String
     school   School @relation(fields: [schoolId], references: [id])
@@ -96,6 +98,14 @@ model Teacher {
     @@index([schoolId])
     @@index([subjectId])
     @@index([createdById])
+}
+
+enum StudentStatus {
+    ACTIVE
+    INACTIVE
+    SUSPENDED
+    GRADUATED
+    TRANSFERRED
 }
 
 model Student {
@@ -128,7 +138,8 @@ model Student {
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
 
-    status RowStatus @default(ACTIVE)
+    status        RowStatus     @default(ACTIVE)
+    studentStatus StudentStatus @default(ACTIVE)
 
     @@index([gradeId])
     @@index([classId])
@@ -137,14 +148,14 @@ model Student {
 }
 
 model Parent {
-    id       String    @id @default(cuid())
-    name     String
-    email    String    @unique
-    phone    String
-    address  String
-    password String
+    id           String    @id @default(cuid())
+    name         String
+    email        String    @unique
+    phone        String
+    address      String
+    password     String
     customFields Json?
-    students Student[]
+    students     Student[]
 
     schoolId String
     school   School @relation(fields: [schoolId], references: [id])
@@ -207,6 +218,7 @@ model Announcement {
 model Grade {
     id    String @id @default(cuid())
     level String @unique
+    order Int    @default(0)
 
     schoolId String
     school   School @relation(fields: [schoolId], references: [id])

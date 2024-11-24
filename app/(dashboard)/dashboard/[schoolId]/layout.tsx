@@ -39,7 +39,7 @@ export default async function DashboardLayout({
                 <div className="h-full rounded-md p-4">
                     <SidebarHeader />
 
-                    <div className="flex flex-col gap-4 mt-4 max-w-6xl mx-auto">
+                    <div className="flex flex-col gap-4 mt-4 max-w-7xl mx-auto">
                         {children}
                     </div>
                 </div>

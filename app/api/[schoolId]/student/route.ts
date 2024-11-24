@@ -15,7 +15,7 @@ export async function POST(
         if (!session?.user)
             return new NextResponse("Unauthenticated", { status: 403 });
 
-        const { name, email, genre, pin, phone, password, ...rest } =
+        const { name, email, genre, pin, phone, password, gradeId, ...rest } =
             (await req.json()) as Student;
 
         const studentExists = await prisma.student.findFirst({
@@ -57,6 +57,7 @@ export async function POST(
                 pin,
                 phone,
                 password: hashedPassword,
+                gradeId,
                 schoolId,
                 customFields: JSON.stringify(rest),
             },

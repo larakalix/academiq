@@ -85,7 +85,7 @@ export async function PATCH(
         if (!session?.user)
             return new NextResponse("Unauthenticated", { status: 403 });
 
-        const { name, email, genre, pin, phone, password, ...rest } =
+        const { name, email, genre, pin, phone, password, gradeId, ...rest } =
             (await req.json()) as Student;
 
         await genericValidator({
@@ -117,6 +117,7 @@ export async function PATCH(
                 pin,
                 phone,
                 schoolId,
+                gradeId,
                 customFields: JSON.stringify(rest),
             },
         });

@@ -138,7 +138,7 @@ model Student {
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
 
-    status RowStatus @default(ACTIVE)
+    status        RowStatus     @default(ACTIVE)
     studentStatus StudentStatus @default(ACTIVE)
 
     @@index([gradeId])
@@ -218,6 +218,7 @@ model Announcement {
 model Grade {
     id    String @id @default(cuid())
     level String @unique
+    order Int    @default(0)
 
     schoolId String
     school   School @relation(fields: [schoolId], references: [id])

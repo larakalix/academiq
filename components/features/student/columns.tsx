@@ -9,6 +9,7 @@ export type StudentColumn = {
     email: string;
     grade: string;
     parents: string;
+    dob: string;
     createdAt: Date;
 };
 

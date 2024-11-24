@@ -18,6 +18,7 @@ export const getStudents = async (
 
         const data = students.map((student) => ({
             ...student,
+            dob: student.dob?.toLocaleDateString() ?? "",
             grade: student.grade?.level ?? "",
             parents:
                 student.parents?.length > 0

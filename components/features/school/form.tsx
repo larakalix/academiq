@@ -15,10 +15,9 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { SubmitButton } from "@/components/form/submit-button";
-import { Card } from "@/components/ui/card";
-import type { School } from "@prisma/client";
 import { useParams } from "next/navigation";
 import { PhoneInput } from "@/components/form/phone-input";
+import type { School } from "@prisma/client";
 
 type Props = {
     initialData: School | null;

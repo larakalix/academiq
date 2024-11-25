@@ -307,7 +307,7 @@ enum SubjectType {
 model Subject {
     id   Int         @id @default(autoincrement())
     name String      @unique
-    code String
+    code String      @default("")
     type SubjectType @default(THEORY)
 
     status RowStatus @default(ACTIVE)
@@ -353,7 +353,7 @@ model Languages {
     name String  @unique
     iso  String  @unique
     flag String? @default("")
-    
+
     status RowStatus @default(ACTIVE)
 
     createdAt DateTime @default(now())

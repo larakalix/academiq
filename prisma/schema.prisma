@@ -47,7 +47,7 @@ model School {
     userId   String
 
     internalIdPrefix String?
-    parentSchoolId String?
+    parentSchoolId   String?
 
     students        Student[]
     parents         Parent[]
@@ -305,8 +305,8 @@ enum SubjectType {
 }
 
 model Subject {
-    id   Int    @id @default(autoincrement())
-    name String @unique
+    id   Int         @id @default(autoincrement())
+    name String      @unique
     code String
     type SubjectType @default(THEORY)
 
@@ -346,4 +346,16 @@ model CustomFields {
     updatedAt DateTime @updatedAt
 
     @@index([schoolId])
+}
+
+model Languages {
+    id   Int     @id @default(autoincrement())
+    name String  @unique
+    iso  String  @unique
+    flag String? @default("")
+    
+    status RowStatus @default(ACTIVE)
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
 }

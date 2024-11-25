@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-
+import { createPortal } from "react-dom";
 import { Button, ButtonProps } from "../button";
 import { Modal } from "../modal";
 
@@ -32,7 +32,7 @@ export const AlertModal: React.FC<AlertModalProps> = ({
 
     if (!isMounted) return null;
 
-    return (
+    return createPortal(
         <Modal
             title={title}
             description={description}
@@ -51,6 +51,7 @@ export const AlertModal: React.FC<AlertModalProps> = ({
                     Continue
                 </Button>
             </div>
-        </Modal>
+        </Modal>,
+        document.body
     );
 };
